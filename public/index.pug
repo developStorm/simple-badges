@@ -86,14 +86,6 @@ html(lang="en-US")
         li(class="grid-item--if-empty hidden" aria-hidden)
           p Icon missing? #[a(href="https://github.com/simple-icons/simple-icons/issues/new?template=icon_request.md" rel="noopener") Submit a request]
 
-        //- This script adds an extra element after itself.
-        script(
-          async
-          id="_carbonads_js"
-          src="//cdn.carbonads.com/carbon.js?serve=CKYIPK7M&placement=simpleiconsorg"
-          type="text/javascript"
-        )
-
         each icon in icons
           li(class="grid-item" style=`--order-color: ${icon.indexByColor}` data-brand=`${icon.normalizedName}`)
             div(class="grid-item__row mv-2 fg-2")
