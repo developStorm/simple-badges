@@ -86,7 +86,7 @@ html(lang="en-US")
           li(class="grid-item" style=`--order-color: ${icon.indexByColor}` data-brand=`${icon.normalizedName}`)
             div(class="grid-item__row mv-2 fg-2")
               button(class="grid-item__preview copy-button copy-svg" title=`${icon.title} SVG` disabled)
-                img(src=`https://img.shields.io/badge/-${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${encodeURIComponent(icon.title.replace('.','-dot-').replace(/^-+|-+$/g, ''))}&logoColor=fff&style=for-the-badge` loading="lazy" class="icon-preview" alt=`${icon.title} badge`)
+                img(src=`https://shields-staging-pr-6591.herokuapp.com/badge/${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${icon.slug}&logoColor=fff&style=for-the-badge` loading="lazy" class="icon-preview" alt=`${icon.title} badge`)
             div(class="grid-item__row")
               if icon.guidelines
                 a(
@@ -109,19 +109,19 @@ html(lang="en-US")
               button(
                 class=`grid-item__color copy-button copy-color`
                 title=`${icon.title} Flat Badge`
-                data-badge-url=`https://img.shields.io/badge/-${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${encodeURIComponent(icon.title.replace('.','-dot-').replace(/^-+|-+$/g, ''))}&logoColor=fff&style=flat`
+                data-badge-url=`https://shields-staging-pr-6591.herokuapp.com/badge/${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${icon.slug}&logoColor=fff&style=flat`
                 disabled
               ) Flat
               button(
                 class=`grid-item__color copy-button copy-color`
                 title=`${icon.title} Square Badge`
-                data-badge-url=`https://img.shields.io/badge/-${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${encodeURIComponent(icon.title.replace('.','-dot-').replace(/^-+|-+$/g, ''))}&logoColor=fff&style=flat-square`
+                data-badge-url=`https://shields-staging-pr-6591.herokuapp.com/badge/${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${icon.slug}&logoColor=fff&style=flat-square`
                 disabled
               ) Square
               button(
                 class=`grid-item__color copy-button copy-color`
                 title=`${icon.title} Plastic Badge`
-                data-badge-url=`https://img.shields.io/badge/-${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${encodeURIComponent(icon.title.replace('.','-dot-').replace(/^-+|-+$/g, ''))}&logoColor=fff&style=plastic`
+                data-badge-url=`https://shields-staging-pr-6591.herokuapp.com/badge/${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${icon.slug}&logoColor=fff&style=plastic`
                 disabled
               ) Plastic            
 

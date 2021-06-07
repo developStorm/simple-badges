@@ -60,24 +60,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(NODE_MODULES, 'simple-icons/icons'),
-          to: path.resolve(OUT_DIR, 'icons'),
-          filter: (path) => path.endsWith('.svg'),
-        },
-        {
-          from: path.resolve(NODE_MODULES, 'simple-icons-pdf/icons'),
-          to: path.resolve(OUT_DIR, 'icons'),
-          filter: (path) => path.endsWith('.pdf'),
-        },
-        {
-          from: path.resolve(ROOT_DIR, 'images'),
-          to: path.resolve(OUT_DIR, 'images'),
-        },
-      ],
-    }),
     new HtmlWebpackPlugin({
       inject: true,
       template: path.resolve(ROOT_DIR, 'index.pug'),
