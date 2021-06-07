@@ -4,18 +4,18 @@ html(lang="en-US")
     meta(charset="UTF-8")
     meta(content="initial-scale=1, shrink-to-fit=no, width=device-width" name="viewport")
     link(rel="preconnect" href="https://fonts.gstatic.com")
-    title Simple Icons
-    meta(name="description" content=`${iconCount} Free SVG icons for popular brands.`)
+    title Simple Badges 
+    meta(name="description" content=`${iconCount} Awesome Simple Icons on your favorite Shields IO Badges.`)
     meta(property="og:type" content="website")
-    meta(property="og:title" content="Simple Icons")
-    meta(property="og:description" content=`${iconCount} Free SVG icons for popular brands.`)
+    meta(property="og:title" content="Simple Badges")
+    meta(property="og:description" content=`${iconCount} Awesome Simple Icons on your favorite Shields IO Badges.`)
     meta(property="og:url" content="https://simpleicons.org")
-    meta(property="og:site_name" content="Simple Icons")
+    meta(property="og:site_name" content="Simple Badges")
     meta(property="og:image" content="https://simpleicons.org/images/og.png")
     meta(name="twitter:card" content="summary_large_image")
-    meta(name="twitter:title" content="Simple Icons")
-    meta(name="twitter:description" content=`${iconCount} Free SVG icons for popular brands.`)
-    meta(name="twitter:domain" content="Simple Icons")
+    meta(name="twitter:title" content="Simple Badges")
+    meta(name="twitter:description" content=`${iconCount} Awesome Simple Icons on your favorite Shields IO Badges.`)
+    meta(name="twitter:domain" content="Simple Badges")
     meta(name="twitter:image:src" content="https://simpleicons.org/images/og.png")
     link(rel="icon" type="image/x-icon" href="https://simpleicons.org/images/favicon.ico")
     link(rel="icon" type="image/x-icon" href="https://simpleicons.org/images/favicon.ico")
@@ -29,17 +29,13 @@ html(lang="en-US")
     header(class="header" role="banner")
       ul(class="header__list")
         li(class="header__list-item")
-          a(href="https://github.com/simple-icons/simple-icons" rel="noopener") GitHub
+          a(href="https://github.com/developStorm/simple-icons-website" rel="noopener") GitHub
         li(class="header__list-item")
-          a(href="https://www.npmjs.com/package/simple-icons" rel="noopener") NPM
+          a(href="https://simpleicons.org/" rel="noopener") Simple Icons
         li(class="header__list-item")
-          a(href="https://packagist.org/packages/simple-icons/simple-icons" rel="noopener") Packagist
-        li(class="header__list-item")
-          a(href="https://www.jsdelivr.com/package/npm/simple-icons" rel="noopener") JSDelivr
-        li(class="header__list-item")
-          a(href="https://unpkg.com/browse/simple-icons/" rel="noopener") Unpkg
-      h1(class="header__title") Simple Icons
-      p(class="header__description") #{iconCount} Free #[abbr(title="Scalable Vector Graphic") SVG] icons for popular brands
+          a(href="https://shields.io/" rel="noopener") Shields IO
+      h1(class="header__title") Simple Badges
+      p(class="header__description") #{iconCount} awesome #[a(href="https://simpleicons.org/" rel="noopener") Simple Icons] on your favorite #[a(href="https://shields.io/" rel="noopener") Shields IO] Badges 
 
     div(class="sticky-header-shadow" aria-hidden)
 
@@ -90,7 +86,7 @@ html(lang="en-US")
           li(class="grid-item" style=`--order-color: ${icon.indexByColor}` data-brand=`${icon.normalizedName}`)
             div(class="grid-item__row mv-2 fg-2")
               button(class="grid-item__preview copy-button copy-svg" title=`${icon.title} SVG` disabled)
-                img(src=`https://img.shields.io/badge/-${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${icon.slug}&logoColor=fff&style=for-the-badge` loading="lazy" class="icon-preview" alt=`${icon.title} badge`)
+                img(src=`https://img.shields.io/badge/-${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${encodeURIComponent(icon.title)}&logoColor=fff&style=for-the-badge` loading="lazy" class="icon-preview" alt=`${icon.title} badge`)
             div(class="grid-item__row")
               if icon.guidelines
                 a(
@@ -113,24 +109,26 @@ html(lang="en-US")
               button(
                 class=`grid-item__color copy-button copy-color`
                 title=`${icon.title} Flat Badge`
-                data-badge-url=`https://img.shields.io/badge/-${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}-${icon.shortHex}?logo=${icon.slug}&logoColor=fff&style=flat`
+                data-badge-url=`https://img.shields.io/badge/-${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}-${icon.shortHex}?logo=${encodeURIComponent(icon.title)}&logoColor=fff&style=flat`
                 disabled
               ) Flat
               button(
                 class=`grid-item__color copy-button copy-color`
                 title=`${icon.title} Square Badge`
-                data-badge-url=`https://img.shields.io/badge/-${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${icon.slug}&logoColor=fff&style=flat-square`
+                data-badge-url=`https://img.shields.io/badge/-${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${encodeURIComponent(icon.title)}&logoColor=fff&style=flat-square`
                 disabled
               ) Square
               button(
                 class=`grid-item__color copy-button copy-color`
                 title=`${icon.title} Plastic Badge`
-                data-badge-url=`https://img.shields.io/badge/-${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${icon.slug}&logoColor=fff&style=plastic`
+                data-badge-url=`https://img.shields.io/badge/-${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${encodeURIComponent(icon.title)}&logoColor=fff&style=plastic`
                 disabled
               ) Plastic            
 
     footer(class="footer" role="contentinfo")
       div(class="footer-description")
+        p.
+          (The following is the footer information on the original Simple Icons homepage, too lazy to change it 😴)
         p.
           A #[a(href="https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md" rel="noopener") CC0] project maintained
           by the #[a(href="https://github.com/simple-icons/simple-icons/graphs/contributors" rel="noopener") Simple Icons Contributors].
