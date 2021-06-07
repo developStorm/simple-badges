@@ -15,7 +15,7 @@ export default function initCopyButtons(window, document, navigator) {
     $colorButton.addEventListener('click', (event) => {
       event.preventDefault();
 
-      const value = $colorButton.attributes["data-badge-url"].value;
+      const value = $colorButton.attributes['data-badge-url'].value;
       $colorButton.blur();
       copyValue(value);
       setCopied($colorButton);

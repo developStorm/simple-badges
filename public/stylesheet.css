@@ -511,7 +511,7 @@ body:not(.dark):not(.light) #color-scheme-system:not(:disabled) {
 }
 
 .grid-item__preview {
-  --preview-size: 3.5rem;
+  /* --preview-size: 3.5rem; */
 
   cursor: default;
   display: block;
@@ -581,7 +581,9 @@ body:not(.dark):not(.light) #color-scheme-system:not(:disabled) {
 
 .grid-item__color {
   border-top: 1px solid var(--color-grid-item-divider);
-  color: #000;
+  border-right: 1px solid var(--color-grid-item-divider);
+  color: var(--color-button-active);
+  background-color: var(--color-background);
   flex-grow: 1;
   font-family: var(--font-family-stylized);
   font-size: 0.75rem;
@@ -593,6 +595,9 @@ body:not(.dark):not(.light) #color-scheme-system:not(:disabled) {
 }
 .grid-item__color.contrast-light {
   color: #fff;
+}
+.grid-item__footer > div:last-child {
+  border-right: none;
 }
 
 .grid-item__button {
