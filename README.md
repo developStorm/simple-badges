@@ -7,5 +7,5 @@
 </a>
 <h3 align="center">Simple Badges: <em>Website</em></h3>
 <p align="center">
-    Awesome Simple Icons on your favorite Shields IO Badges. Find it at <a href="https://developstorm.github.io/simple-icons-website/">Here</a>.</p>
+    Awesome Simple Icons on your favorite Shields IO Badges. Find it at <a href="https://developstorm.github.io/simple-badges/">Here</a>.</p>
 </p>
