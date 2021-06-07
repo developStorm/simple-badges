@@ -97,7 +97,7 @@ describe('External links', () => {
   it('is possible to click the link to GitHub', async () => {
     await expect(page).toClick('a', { text: 'GitHub' });
   });
-  
+
   it('is possible to click the JSDelivr link', async () => {
     await expect(page).toClick('a', { text: 'Simple Icons' });
   });
