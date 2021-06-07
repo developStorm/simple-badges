@@ -97,21 +97,13 @@ describe('External links', () => {
   it('is possible to click the link to GitHub', async () => {
     await expect(page).toClick('a', { text: 'GitHub' });
   });
-
-  it('is possible to click the link to NPM', async () => {
-    await expect(page).toClick('a', { text: 'NPM' });
-  });
-
-  it('is possible to click the link to Packagist', async () => {
-    await expect(page).toClick('a', { text: 'Packagist' });
-  });
-
+  
   it('is possible to click the JSDelivr link', async () => {
-    await expect(page).toClick('a', { text: 'JSDelivr' });
+    await expect(page).toClick('a', { text: 'Simple Icons' });
   });
 
   it('is possible to click the Unpkg link', async () => {
-    await expect(page).toClick('a', { text: 'Unpkg' });
+    await expect(page).toClick('a', { text: 'Shields IO' });
   });
 });
 
@@ -402,31 +394,6 @@ describe('Grid item', () => {
   it('has the color value button enabled', async () => {
     const $previewButton = await page.$('button.copy-color');
     expect(await isDisabled($previewButton)).toBeFalsy();
-  });
-
-  it('copies the hex value when it is clicked', async () => {
-    await expect(page).toClick('button.copy-color');
-    const clipboardValue = await getClipboardValue(page);
-    expect(clipboardValue).toMatch(COLOR_REGEX);
-  });
-
-  it('has the SVG preview button enabled', async () => {
-    const $previewButton = await page.$('button.copy-svg');
-    expect(await isDisabled($previewButton)).toBeFalsy();
-  });
-
-  it('copies the SVG value when the preview is clicked', async () => {
-    await expect(page).toClick('button.copy-svg');
-    const clipboardValue = await getClipboardValue(page);
-    expect(clipboardValue).toMatch(SVG_REGEX);
-  });
-
-  it('is possible to download an icon as SVG', async () => {
-    await expect(page).toClick('a[download][href$="svg"]');
-  });
-
-  it('is possible to download an icon as PDF', async () => {
-    await expect(page).toClick('a[download][href$="pdf"]');
   });
 });
 
