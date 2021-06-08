@@ -1,8 +1,9 @@
 name: Automated Releases
 on:
+  workflow_dispatch:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron: '0 0 * * *'
+    - cron: '42 0 * * *'
 
 jobs:
   auto-release:
@@ -29,12 +30,12 @@ jobs:
 
           # Create a commit for the simple-icons dependency update
           git add .
-          git commit -m "Update simple-icons to ${{ steps.update.outputs.NEW_VERSION }}"
+          git diff-index --quiet HEAD || git commit -m "Update simple-icons to ${{ steps.update.outputs.NEW_VERSION }}"
       - name: Push updates
         run: |
           # Set up remote using a Personal Access Token
           git remote remove origin
-          git remote add origin https://${{secrets.RELEASE_TOKEN}}@github.com/simple-icons/simple-icons-website.git
+          git remote add origin https://${{secrets.RELEASE_TOKEN}}@github.com/developStorm/simple-badges.git
 
           # Push updates to origin
           git push origin master

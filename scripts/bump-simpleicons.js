@@ -29,7 +29,8 @@ function main() {
     const versionAfter = manifestAfter.dependencies['simple-icons'];
 
     if (versionBefore === versionAfter) {
-      throw new Error('Simple icons does not need to be updated');
+      console.error('Simple icons does not need to be updated');
+      process.exit(0);
     }
 
     console.log(versionAfter);
