@@ -98,11 +98,11 @@ describe('External links', () => {
     await expect(page).toClick('a', { text: 'GitHub' });
   });
 
-  it('is possible to click the JSDelivr link', async () => {
+  it('is possible to click the Simple Icons link', async () => {
     await expect(page).toClick('a', { text: 'Simple Icons' });
   });
 
-  it('is possible to click the Unpkg link', async () => {
+  it('is possible to click the Shields IO link', async () => {
     await expect(page).toClick('a', { text: 'Shields IO' });
   });
 });
@@ -296,81 +296,6 @@ describe('Ordering', () => {
       const hex = hexes[i];
       await expect($gridItem).toMatch(`#${hex}`);
     }
-  });
-});
-
-describe('Preferred color scheme', () => {
-  beforeAll(async () => {
-    await page.goto(url.href);
-  });
-
-  it.each([
-    ['dark', 'rgb(34, 34, 34)'],
-    ['light', 'rgb(252, 252, 252)'],
-  ])('has color scheme "%s"', async (scheme, expected) => {
-    await page.emulateMediaFeatures([
-      { name: 'prefers-color-scheme', value: scheme },
-    ]);
-
-    await page.screenshot({
-      path: path.resolve(ARTIFACTS_DIR, `desktop_${scheme}-mode.png`),
-    });
-
-    const bodyBackgroundColor = await page.evaluate(() => {
-      const bgColor = window.getComputedStyle(document.body).backgroundColor;
-      return bgColor;
-    });
-    expect(bodyBackgroundColor).toEqual(expected);
-  });
-
-  it.each([
-    ['light', '#color-scheme-dark', 'rgb(34, 34, 34)'],
-    ['light', '#color-scheme-light', 'rgb(252, 252, 252)'],
-    ['dark', '#color-scheme-dark', 'rgb(34, 34, 34)'],
-    ['dark', '#color-scheme-light', 'rgb(252, 252, 252)'],
-  ])('is "%s" but "%s" is selected', async (scheme, id, expected) => {
-    await page.emulateMediaFeatures([
-      { name: 'prefers-color-scheme', value: scheme },
-    ]);
-
-    await expect(page).toClick(id);
-
-    const bodyBackgroundColor = await page.evaluate(() => {
-      const bgColor = window.getComputedStyle(document.body).backgroundColor;
-      return bgColor;
-    });
-
-    expect(bodyBackgroundColor).toEqual(expected);
-  });
-
-  it('reloads with system color scheme', async () => {
-    await expect(page).toClick('#color-scheme-system');
-
-    await page.reload();
-
-    const $body = await page.$('body');
-    expect(await hasClass($body, 'dark')).toBeFalsy();
-    expect(await hasClass($body, 'light')).toBeFalsy();
-  });
-
-  it('reloads with dark color scheme', async () => {
-    await expect(page).toClick('#color-scheme-dark');
-
-    await page.reload();
-
-    const $body = await page.$('body');
-    expect(await hasClass($body, 'dark')).toBeTruthy();
-    expect(await hasClass($body, 'light')).toBeFalsy();
-  });
-
-  it('reloads with light color scheme', async () => {
-    await expect(page).toClick('#color-scheme-light');
-
-    await page.reload();
-
-    const $body = await page.$('body');
-    expect(await hasClass($body, 'dark')).toBeFalsy();
-    expect(await hasClass($body, 'light')).toBeTruthy();
   });
 });
 

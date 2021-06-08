@@ -81,57 +81,27 @@
 
 /* Color schemes */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --asset-svg-copy: var(--dm-asset-svg-copy);
-    --asset-svg-copied: var(--dm-asset-svg-copied);
-    --asset-svg-external-link: var(--dm-asset-svg-external-link);
-    --asset-svg-legal: var(--dm-asset-svg-legal);
-    --color-background: var(--dm-color-background);
-    --color-background-transparent: var(--dm-color-background-transparent);
-    --color-background-card: var(--dm-color-background-card);
-    --color-text-default: var(--dm-color-text-default);
-    --color-text-light: var(--dm-color-text-light);
-    --color-svg-default: var(--dm-color-svg-default);
-    --color-button-border: var(--dm-color-button-border);
-    --color-button-hover: var(--dm-color-button-hover);
-    --color-button-active: var(--dm-color-button-active);
-    --color-button-text-hover: var(--dm-color-button-text-hover);
-    --color-disabled: var(--dm-color-disabled);
-    --color-grid-item-divider: var(--dm-color-grid-item-divider);
-    --color-shadows: var(--dm-color-shadow);
-    --color-link: var(--dm-color-link);
-    --color-link-hover: var(--dm-color-link-hover);
-    --color-link-visited: var(--dm-color-link-visited);
-  }
-
-  body:not(.dark):not(.light) .icon-preview {
-    filter: invert(1);
-  }
-}
-@media (prefers-color-scheme: light) {
-  :root {
-    --asset-svg-copy: var(--lm-asset-svg-copy);
-    --asset-svg-copied: var(--lm-asset-svg-copied);
-    --asset-svg-external-link: var(--lm-asset-svg-external-link);
-    --asset-svg-legal: var(--lm-asset-svg-legal);
-    --color-background: var(--lm-color-background);
-    --color-background-transparent: var(--lm-color-background-transparent);
-    --color-background-card: var(--lm-color-background-card);
-    --color-text-default: var(--lm-color-text-default);
-    --color-text-light: var(--lm-color-text-light);
-    --color-svg-default: var(--lm-color-svg-default);
-    --color-button-border: var(--lm-color-button-border);
-    --color-button-hover: var(--lm-color-button-hover);
-    --color-button-active: var(--lm-color-button-active);
-    --color-button-text-hover: var(--lm-color-button-text-hover);
-    --color-disabled: var(--lm-color-disabled);
-    --color-grid-item-divider: var(--lm-color-grid-item-divider);
-    --color-shadows: var(--lm-color-shadow);
-    --color-link: var(--lm-color-link);
-    --color-link-hover: var(--lm-color-link-hover);
-    --color-link-visited: var(--lm-color-link-visited);
-  }
+:root {
+  --asset-svg-copy: var(--lm-asset-svg-copy);
+  --asset-svg-copied: var(--lm-asset-svg-copied);
+  --asset-svg-external-link: var(--lm-asset-svg-external-link);
+  --asset-svg-legal: var(--lm-asset-svg-legal);
+  --color-background: var(--lm-color-background);
+  --color-background-transparent: var(--lm-color-background-transparent);
+  --color-background-card: var(--lm-color-background-card);
+  --color-text-default: var(--lm-color-text-default);
+  --color-text-light: var(--lm-color-text-light);
+  --color-svg-default: var(--lm-color-svg-default);
+  --color-button-border: var(--lm-color-button-border);
+  --color-button-hover: var(--lm-color-button-hover);
+  --color-button-active: var(--lm-color-button-active);
+  --color-button-text-hover: var(--lm-color-button-text-hover);
+  --color-disabled: var(--lm-color-disabled);
+  --color-grid-item-divider: var(--lm-color-grid-item-divider);
+  --color-shadows: var(--lm-color-shadow);
+  --color-link: var(--lm-color-link);
+  --color-link-hover: var(--lm-color-link-hover);
+  --color-link-visited: var(--lm-color-link-visited);
 }
 
 body.dark {
@@ -596,7 +566,7 @@ body:not(.dark):not(.light) #color-scheme-system:not(:disabled) {
 .grid-item__color.contrast-light {
   color: #fff;
 }
-.grid-item__footer > div:last-child {
+.grid-item__footer > :last-child {
   border-right: none;
 }
 
