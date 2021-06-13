@@ -1,3 +1,13 @@
+import { STORAGE_KEY_COPY_METHOD } from './storage.js';
+
+export const COPY_AS_MARKDOWN = 'COPY_AS_MARKDOWN';
+export const COPY_AS_HTML = 'COPY_AS_HTML';
+export const COPY_AS_LINK = 'COPY_AS_LINK';
+
+const DEFAULT_COPY_FORMAT = COPY_AS_MARKDOWN;
+
+const CLASS_COPY_ACTIVE = 'copy-control-active';
+
 const COPIED_TIMEOUT = 1000;
 
 function setCopied($el) {
@@ -6,6 +16,34 @@ function setCopied($el) {
 }
 
 export default function initCopyButtons(window, document, navigator) {
+  let activeCopyMethod = DEFAULT_COPY_FORMAT;
+
+  // Init copy option controls 
+  const $copyAsMarkdown = document.getElementById('copy-as-markdown');
+  const $copyAsHTML = document.getElementById('copy-as-html');
+  const $copyAsLink = document.getElementById('copy-as-link');
+
+  $copyAsMarkdown.disabled = false;
+  $copyAsHTML.disabled = false;
+  $copyAsLink.disabled = false;
+
+  $copyAsMarkdown.addEventListener('click', (event) => {
+    event.preventDefault();
+    selectCopyFormat(COPY_AS_MARKDOWN);
+    $copyAsMarkdown.blur();
+  });
+  $copyAsHTML.addEventListener('click', (event) => {
+    event.preventDefault();
+    selectCopyFormat(COPY_AS_HTML);
+    $copyAsHTML.blur();
+  });
+  $copyAsLink.addEventListener('click', (event) => {
+    event.preventDefault();
+    selectCopyFormat(COPY_AS_LINK);
+    $copyAsLink.blur();
+  });
+
+  // Init icon copy buttons
   const $copyInput = document.getElementById('copy-input');
   const $colorButtons = document.querySelectorAll('.copy-color');
   const $svgButtons = document.querySelectorAll('.copy-svg');
@@ -45,5 +83,26 @@ export default function initCopyButtons(window, document, navigator) {
       document.execCommand('copy');
       $copyInput.blur();
     }
+  }
+
+  function selectCopyFormat(selected) {
+    if (selected === activeCopyMethod) {
+      return;
+    }
+
+    $copyAsMarkdown.classList.remove(CLASS_COPY_ACTIVE);
+    $copyAsHTML.classList.remove(CLASS_COPY_ACTIVE);
+    $copyAsLink.classList.remove(CLASS_COPY_ACTIVE);
+
+    if (selected === COPY_AS_MARKDOWN) {
+      $copyAsMarkdown.classList.add(CLASS_COPY_ACTIVE);
+    } else if (selected === COPY_AS_HTML) {
+      $copyAsHTML.classList.add(CLASS_COPY_ACTIVE);
+    } else if (selected === COPY_AS_LINK) {
+      $copyAsLink.classList.add(CLASS_COPY_ACTIVE);
+    }
+
+    // storage.setItem(STORAGE_KEY_COPY_METHOD, selected);
+    activeCopyMethod = selected;
   }
 }

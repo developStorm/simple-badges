@@ -411,14 +411,13 @@ body.order-by-relevance #order-relevance {
   fill: var(--color-background);
 }
 
-/* Control - color */
+/* Control - copy */
 
-body.dark #color-scheme-dark,
-body.light #color-scheme-light,
-body:not(.dark):not(.light) #color-scheme-system:not(:disabled) {
+.copy-control-active {
   background-color: var(--color-button-active);
   border-color: var(--color-button-active);
-  cursor: default;
+  color: var(--color-background);
+  cursor: default !important;
   fill: var(--color-background);
 }
 
