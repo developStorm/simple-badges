@@ -5,16 +5,16 @@ html(lang="en-US")
     meta(content="initial-scale=1, shrink-to-fit=no, width=device-width" name="viewport")
     link(rel="preconnect" href="https://fonts.gstatic.com")
     title Simple Badges 
-    meta(name="description" content=`${iconCount} Awesome Simple Icons on your favorite Shields IO Badges.`)
+    meta(name="description" content=`${iconCount} Awesome Simple Icons on your favorite Shields.io Badges.`)
     meta(property="og:type" content="website")
     meta(property="og:title" content="Simple Badges")
-    meta(property="og:description" content=`${iconCount} Awesome Simple Icons on your favorite Shields IO Badges.`)
+    meta(property="og:description" content=`${iconCount} Awesome Simple Icons on your favorite Shields.io Badges.`)
     meta(property="og:url" content="https://simpleicons.org")
     meta(property="og:site_name" content="Simple Badges")
     meta(property="og:image" content="https://simpleicons.org/images/og.png")
     meta(name="twitter:card" content="summary_large_image")
     meta(name="twitter:title" content="Simple Badges")
-    meta(name="twitter:description" content=`${iconCount} Awesome Simple Icons on your favorite Shields IO Badges.`)
+    meta(name="twitter:description" content=`${iconCount} Awesome Simple Icons on your favorite Shields.io Badges.`)
     meta(name="twitter:domain" content="Simple Badges")
     meta(name="twitter:image:src" content="https://simpleicons.org/images/og.png")
     link(rel="icon" type="image/x-icon" href="https://simpleicons.org/images/favicon.ico")
@@ -29,13 +29,13 @@ html(lang="en-US")
     header(class="header" role="banner")
       ul(class="header__list")
         li(class="header__list-item")
-          a(href="https://github.com/developStorm/simple-icons-website" rel="noopener") GitHub
+          a(href="https://github.com/developStorm/simple-icons-website" rel="noopener" target="_blank") GitHub
         li(class="header__list-item")
-          a(href="https://simpleicons.org/" rel="noopener") Simple Icons
+          a(href="https://simpleicons.org/" rel="noopener" target="_blank") Simple Icons
         li(class="header__list-item")
-          a(href="https://shields.io/" rel="noopener") Shields IO
+          a(href="https://shields.io/" rel="noopener" target="_blank") Shields.io
       h1(class="header__title") Simple Badges
-      p(class="header__description") #{iconCount} awesome #[a(href="https://simpleicons.org/" rel="noopener") Simple Icons] on your favorite #[a(href="https://shields.io/" rel="noopener") Shields IO] Badges 
+      p(class="header__description") #{iconCount} awesome #[a(href="https://simpleicons.org/" rel="noopener" target="_blank") Simple Icons] on your favorite #[a(href="https://shields.io/" rel="noopener" target="_blank") Shields.io] Badges 
 
     div(class="sticky-header-shadow" aria-hidden)
 
@@ -81,13 +81,13 @@ html(lang="en-US")
 
       ul(class="grid")
         li(class="grid-item--if-empty hidden" aria-hidden)
-          p Icon missing? #[a(href="https://github.com/simple-icons/simple-icons/issues/new?template=icon_request.md" rel="noopener") Submit a request]
+          p Icon missing? #[a(href="https://github.com/simple-icons/simple-icons/issues/new?template=icon_request.md" rel="noopener" target="_blank") Submit a request]
 
         each icon in icons
-          li(class="grid-item" style=`--order-color: ${icon.indexByColor}` data-brand=`${icon.normalizedName}` data-title=`${icon.title}` data-color=`${icon.shortHex}` data-slug=`${icon.slug}`)
+          li(class="grid-item" style=`--order-color: ${icon.indexByColor}` data-brand=`${icon.normalizedName}` data-title=`${icon.title}` data-encoded_title=`${icon.badgeEncodedTitle}` data-color=`${icon.shortHex}` data-slug=`${icon.slug}`)
             div(class="grid-item__row mv-2 fg-2")
               button(class="grid-item__preview copy-button copy-svg" title=`${icon.title} SVG` data-style='for-the-badge' disabled)
-                img(src=`https://img.shields.io/badge/${encodeURIComponent(icon.title.replace('-', '--'))}-${icon.shortHex}?logo=${icon.slug}&logoColor=fff&style=for-the-badge` loading="lazy" class="icon-preview" alt=`${icon.title} badge`)
+                img(src=`https://img.shields.io/badge/${icon.badgeEncodedTitle}-${icon.shortHex}?logo=${icon.slug}&logoColor=fff&style=for-the-badge` loading="lazy" class="icon-preview" alt=`${icon.title} badge`)
             div(class="grid-item__row")
               if icon.guidelines
                 a(
@@ -129,20 +129,17 @@ html(lang="en-US")
     footer(class="footer" role="contentinfo")
       div(class="footer-description")
         p.
-          (The following is the footer information on the original Simple Icons homepage, too lazy to change it 😴)
+          Simple Icons is a project collects SVG icons for popular brands.
         p.
-          A #[a(href="https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md" rel="noopener") CC0] project maintained
-          by the #[a(href="https://github.com/simple-icons/simple-icons/graphs/contributors" rel="noopener") Simple Icons Contributors].
+          Shields.io is a service generates concise, consistent, and legible badges.
         p.
-          Use #[a(href="https://github.com/simple-icons/simple-icons" rel="noopener") GitHub] for requests, corrections and contributions.
-        p.
-          Kindly supported by your donations at #[a(href="https://opencollective.com/simple-icons" rel="noopener") Open Collective].
+          Simple Badges (this project) is a page helps you to use both of the above services jointly.
       a(
         class="footer-share"
         rel="noopener"
         role="button"
         target="_blank"
-        href="https://twitter.com/intent/tweet?url=https://simpleicons.org&text=Simple%20Icons%3A%20free%20SVG%20icons%20for%20popular%20brands."
+        href="https://twitter.com/intent/tweet?url=https://github.com/developStorm/simple-badges&text=Awesome%20Simple%20Icons%20on%20your%20favorite%20Shields%20IO%20Badges."
       )
         svg(class="footer-share--icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg")
           title Twitter logo

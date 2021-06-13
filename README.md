@@ -3,15 +3,15 @@
 <img src="https://simpleicons.org/icons/simpleicons.svg" alt="Simple Icons" width=64 height=64>
 </a>
 <a href="https://shields.io/">
-<img src="https://simpleicons.org/icons/shieldsdotio.svg" alt="Shields IO" height=64>
+<img src="https://simpleicons.org/icons/shieldsdotio.svg" alt="Shields.io" height=64>
 </a>
 <h3 align="center">Simple Badges: <em>Website</em></h3>
 <p align="center">
-    Awesome Simple Icons on your favorite Shields IO Badges. Find it at <a href="https://developstorm.github.io/simple-badges/">Here</a>.</p>
+    Awesome Simple Icons on your favorite Shields.io Badges. Find it at <a href="https://developstorm.github.io/simple-badges/">Here</a>.</p>
 </p>
 
 ## What is this?
-Simple Badges is a fork of the [original](https://github.com/simple-icons/simple-icons-website) Simple Icons website, which made a combination of original icons with multiple styles of [Shields IO](https://shields.io/) badges to help you to find your favorite badges in a easy way.
+Simple Badges is a fork of the [original](https://github.com/simple-icons/simple-icons-website) Simple Icons website, which made a combination of original icons with multiple styles of [Shields.io](https://shields.io/) badges to help you to find your favorite badges in a easy way.
 
 ## Where can I use this?
 I've seen people use Shields.IO badges for various scenarios, the most common one is use it for your GitHub [profile README](https://docs.github.com/en/github/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme) to showcase your skills ![JS](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=fff&style=flat-square), your software ![Android](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=fff&style=flat-square) or even things you like ![Minecraft](https://img.shields.io/badge/Minecraft-62B47A?logo=minecraft&logoColor=fff&style=flat-square). 

@@ -1,16 +1,13 @@
 {
-  "name": "simple-icons-website",
+  "name": "simple-badges",
   "version": "1.0.0",
-  "description": "Website for Simple Icons",
+  "description": "Website for Simple Badges",
   "private": "true",
   "repository": {
     "type": "git",
-    "url": "git@github.com:simple-icons/simple-icons-website.git"
+    "url": "git@github.com:developStorm/simple-badges.git"
   },
-  "bugs": {
-    "url": "https://github.com/simple-icons/simple-icons-website/issues"
-  },
-  "author": "Simple Icons Collaborators",
+  "author": "Simple Badges Collaborators",
   "license": "CC0-1.0",
   "scripts": {
     "build": "webpack --mode production",
@@ -28,8 +25,7 @@
     "test:unit": "cross-env TEST_ENV=unit jest"
   },
   "dependencies": {
-    "simple-icons": "5.1.0",
-    "simple-icons-pdf": "https://github.com/simple-icons/simple-icons-pdf/tarball/master"
+    "simple-icons": "5.1.0"
   },
   "devDependencies": {
     "@babel/core": "7.14.3",
@@ -62,6 +58,6 @@
     "webpack-cli": "4.7.0"
   },
   "engine": {
-    "node": ">=12.16.0"
+    "node": ">=16.0.0"
   }
 }

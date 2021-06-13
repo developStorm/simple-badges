@@ -102,8 +102,8 @@ describe('External links', () => {
     await expect(page).toClick('a', { text: 'Simple Icons' });
   });
 
-  it('is possible to click the Shields IO link', async () => {
-    await expect(page).toClick('a', { text: 'Shields IO' });
+  it('is possible to click the Shields.io link', async () => {
+    await expect(page).toClick('a', { text: 'Shields.io' });
   });
 });
 

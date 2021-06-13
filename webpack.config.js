@@ -81,6 +81,9 @@ module.exports = {
             shortHex: simplifyHexIfPossible(icon.hex),
             slug: icon.slug,
             title: icon.title,
+            badgeEncodedTitle: encodeURIComponent(
+              icon.title.replaceAll('-', '--').replaceAll('_', '__'),
+            ),
           };
         }),
         iconCount: icons.length,
