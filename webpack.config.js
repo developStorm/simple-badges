@@ -74,7 +74,7 @@ module.exports = {
             indexByColor: sortedHexes.indexOf(icon.hex),
             license: icon.license,
             light: luminance < 0.4,
-            superLight: luminance > 0.95,
+            superLight: luminance > 0.55,
             superDark: luminance < 0.02,
             normalizedName: normalizeSearchTerm(icon.title),
             path: icon.path,

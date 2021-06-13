@@ -84,10 +84,10 @@ html(lang="en-US")
           p Icon missing? #[a(href="https://github.com/simple-icons/simple-icons/issues/new?template=icon_request.md" rel="noopener" target="_blank") Submit a request]
 
         each icon in icons
-          li(class="grid-item" style=`--order-color: ${icon.indexByColor}` data-brand=`${icon.normalizedName}` data-title=`${icon.title}` data-encoded_title=`${icon.badgeEncodedTitle}` data-color=`${icon.shortHex}` data-slug=`${icon.slug}`)
+          li(class="grid-item" style=`--order-color: ${icon.indexByColor}` data-brand=`${icon.normalizedName}` data-title=`${icon.title}` data-encoded_title=`${icon.badgeEncodedTitle}` data-color=`${icon.shortHex}` data-logo_color=`${icon.superLight ? '000' : 'fff'}` data-slug=`${icon.slug}`)
             div(class="grid-item__row mv-2 fg-2")
               button(class="grid-item__preview copy-button copy-svg" title=`${icon.title} SVG` data-style='for-the-badge' disabled)
-                img(src=`https://img.shields.io/badge/${icon.badgeEncodedTitle}-${icon.shortHex}?logo=${icon.slug}&logoColor=fff&style=for-the-badge` loading="lazy" class="icon-preview" alt=`${icon.title} badge`)
+                img(src=`https://img.shields.io/badge/${icon.badgeEncodedTitle}-${icon.shortHex}?logo=${icon.slug}&logoColor=${icon.superLight ? '000' : 'fff'}&style=for-the-badge` loading="lazy" class="icon-preview" alt=`${icon.title} badge`)
             div(class="grid-item__row")
               if icon.guidelines
                 a(

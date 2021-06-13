@@ -60,13 +60,14 @@ export default function initCopyButtons(window, document, navigator, storage) {
 
       const $parentListItem = $copyButton.closest('li');
       const iconEncodedTitle = $parentListItem.dataset.encoded_title;
+      const iconLogoColor = $parentListItem.dataset.logo_color;
       const iconTitle = $parentListItem.dataset.title;
       const iconColor = $parentListItem.dataset.color;
       const iconSlug = $parentListItem.dataset.slug;
       const iconStyle = $copyButton.dataset.style;
       const badgeURL =
         SHIELDS_BASE_URL +
-        `/badge/${iconEncodedTitle}-${iconColor}?logo=${iconSlug}&logoColor=fff&style=${iconStyle}`;
+        `/badge/${iconEncodedTitle}-${iconColor}?logo=${iconSlug}&logoColor=${iconLogoColor}&style=${iconStyle}`;
 
       let value;
       switch (activeCopyMethod) {
