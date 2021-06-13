@@ -15,7 +15,7 @@ function setCopied($el) {
   setTimeout(() => $el.classList.remove('copied'), COPIED_TIMEOUT);
 }
 
-export default function initCopyButtons(window, document, navigator) {
+export default function initCopyButtons(window, document, navigator, storage) {
   let activeCopyMethod = DEFAULT_COPY_FORMAT;
 
   // Init copy option controls 
@@ -26,6 +26,10 @@ export default function initCopyButtons(window, document, navigator) {
   $copyAsMarkdown.disabled = false;
   $copyAsHTML.disabled = false;
   $copyAsLink.disabled = false;
+
+  if (storage.hasItem(STORAGE_KEY_COPY_METHOD)) {
+    selectCopyFormat(storage.getItem(STORAGE_KEY_COPY_METHOD));
+  }
 
   $copyAsMarkdown.addEventListener('click', (event) => {
     event.preventDefault();
@@ -102,7 +106,7 @@ export default function initCopyButtons(window, document, navigator) {
       $copyAsLink.classList.add(CLASS_COPY_ACTIVE);
     }
 
-    // storage.setItem(STORAGE_KEY_COPY_METHOD, selected);
+    storage.setItem(STORAGE_KEY_COPY_METHOD, selected);
     activeCopyMethod = selected;
   }
 }
