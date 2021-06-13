@@ -10,6 +10,8 @@ const CLASS_COPY_ACTIVE = 'copy-control-active';
 
 const COPIED_TIMEOUT = 1000;
 
+const SHIELDS_BASE_URL = 'https://img.shields.io';
+
 function setCopied($el) {
   $el.classList.add('copied');
   setTimeout(() => $el.classList.remove('copied'), COPIED_TIMEOUT);
@@ -18,7 +20,7 @@ function setCopied($el) {
 export default function initCopyButtons(window, document, navigator, storage) {
   let activeCopyMethod = DEFAULT_COPY_FORMAT;
 
-  // Init copy option controls 
+  // Init copy option controls
   const $copyAsMarkdown = document.getElementById('copy-as-markdown');
   const $copyAsHTML = document.getElementById('copy-as-html');
   const $copyAsLink = document.getElementById('copy-as-link');
@@ -49,32 +51,40 @@ export default function initCopyButtons(window, document, navigator, storage) {
 
   // Init icon copy buttons
   const $copyInput = document.getElementById('copy-input');
-  const $colorButtons = document.querySelectorAll('.copy-color');
-  const $svgButtons = document.querySelectorAll('.copy-svg');
+  const $copyButtons = document.querySelectorAll('.copy-button');
 
-  $colorButtons.forEach(($colorButton) => {
-    $colorButton.removeAttribute('disabled');
-    $colorButton.addEventListener('click', (event) => {
+  $copyButtons.forEach(($copyButton) => {
+    $copyButton.removeAttribute('disabled');
+    $copyButton.addEventListener('click', (event) => {
       event.preventDefault();
 
-      const value = $colorButton.attributes['data-badge-url'].value;
-      $colorButton.blur();
+      const $parentListItem = $copyButton.closest('li');
+      const iconTitle = $parentListItem.dataset.title;
+      const iconColor = $parentListItem.dataset.color;
+      const iconSlug = $parentListItem.dataset.slug;
+      const iconStyle = $copyButton.dataset.style;
+      const badgeURL =
+        SHIELDS_BASE_URL +
+        `/badge/${encodeURIComponent(
+          iconTitle.replace('-', '--'),
+        )}-${iconColor}?logo=${iconSlug}&logoColor=fff&style=${iconStyle}`;
+
+      let value;
+      switch (activeCopyMethod) {
+        case COPY_AS_MARKDOWN:
+          value = `![${iconTitle} Badge](${badgeURL})`;
+          break;
+        case COPY_AS_HTML:
+          value = `<img src="${badgeURL}" alt="${iconTitle} Badge">`;
+          break;
+        case COPY_AS_LINK:
+          value = badgeURL;
+          break;
+      }
+
+      $copyButton.blur();
       copyValue(value);
-      setCopied($colorButton);
-    });
-  });
-
-  $svgButtons.forEach(($svgButton) => {
-    $svgButton.removeAttribute('disabled');
-    $svgButton.addEventListener('click', (event) => {
-      event.preventDefault();
-
-      const $img = $svgButton.querySelector('img');
-      const value = $img.getAttribute('src');
-
-      $svgButton.blur();
-      copyValue(value);
-      setCopied($svgButton);
+      setCopied($copyButton);
     });
   });
 
