@@ -433,7 +433,7 @@ body.order-by-relevance #order-relevance {
 /* Grid */
 
 .grid {
-  --grid-width: 13rem;
+  --grid-width: 13.5rem;
 
   display: grid;
   list-style: none;
@@ -481,13 +481,17 @@ body.order-by-relevance #order-relevance {
 
 .grid-item__preview {
   /* --preview-size: 3.5rem; */
-
   cursor: default;
   display: block;
-  height: var(--preview-size);
+  /* height: var(--preview-size); */
   margin: 1.5rem auto 1rem;
   position: relative;
-  width: var(--preview-size);
+  /* width: var(--preview-size); */
+}
+
+.icon-preview {
+  width: 100%;
+  height: auto;
 }
 
 .grid-item__title {
