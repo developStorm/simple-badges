@@ -23,9 +23,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --no-audit
       - name: Build Website
-        run: npm run build
+        run: |
+          npm run build
+          sed -i "s/#DEVELOPMENT_BUILD#/$(git rev-parse --short ${{ github.sha }})/g" ./_site/script.js
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
