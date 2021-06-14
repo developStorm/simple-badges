@@ -24,9 +24,6 @@
     "test:integration": "cross-env TEST_ENV=integration jest",
     "test:unit": "cross-env TEST_ENV=unit jest"
   },
-  "dependencies": {
-    "simple-icons": "5.1.0"
-  },
   "devDependencies": {
     "@babel/core": "7.14.3",
     "@babel/preset-env": "7.14.2",
@@ -59,5 +56,8 @@
   },
   "engine": {
     "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "simple-icons": "5.2.0"
   }
 }
