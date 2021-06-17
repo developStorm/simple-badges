@@ -60,6 +60,14 @@ module.exports = {
     ],
   },
   plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(ROOT_DIR, 'images'),
+          to: path.resolve(OUT_DIR, 'images'),
+        },
+      ],
+    }),
     new HtmlWebpackPlugin({
       inject: true,
       template: path.resolve(ROOT_DIR, 'index.pug'),
@@ -88,6 +96,9 @@ module.exports = {
         }),
         iconCount: icons.length,
         twitterIcon: icons.find((icon) => icon.title === 'Twitter'),
+        pageTitle: 'Simple Badges',
+        pageDescription: `${icons.length} Awesome Simple Icons on your favorite Shields.io Badges.`,
+        pageUrl: 'https://developstorm.github.io/simple-badges',
       },
     }),
     new MiniCssExtractPlugin(),
