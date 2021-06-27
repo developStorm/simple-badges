@@ -27,6 +27,8 @@ jobs:
         with:
           path: .cache/webpack
           key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
       - name: Install dependencies
         run: npm ci --no-audit
       - name: Build Website
