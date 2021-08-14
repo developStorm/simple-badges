@@ -24,9 +24,6 @@
     "test:e2e": "cross-env TEST_ENV=e2e jest",
     "test:unit": "cross-env TEST_ENV=unit jest"
   },
-  "dependencies": {
-    "simple-icons": "5.8.1"
-  },
   "devDependencies": {
     "@babel/core": "7.15.0",
     "@babel/preset-env": "7.15.0",
@@ -59,5 +56,8 @@
   },
   "engine": {
     "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "simple-icons": "5.9.0"
   }
 }
