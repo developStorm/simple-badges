@@ -62,6 +62,10 @@ export default function initSearch(history, document, ordering, domUtils) {
     }),
   );
 
+  $searchInput.addEventListener('change', () => {
+    $searchInput.blur();
+  });
+
   $searchClear.addEventListener('click', (event) => {
     event.preventDefault();
     $searchInput.value = '';
