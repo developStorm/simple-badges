@@ -25,11 +25,11 @@
     "test:unit": "cross-env TEST_ENV=unit jest"
   },
   "devDependencies": {
-    "@babel/core": "7.15.0",
-    "@babel/preset-env": "7.15.0",
+    "@babel/core": "7.15.4",
+    "@babel/preset-env": "7.15.4",
     "anywhere": "1.5.0",
-    "autoprefixer": "10.3.1",
-    "babel-jest": "27.0.6",
+    "autoprefixer": "10.3.4",
+    "babel-jest": "27.1.0",
     "color-sorter": "5.0.2",
     "copy-webpack-plugin": "9.0.1",
     "cross-env": "7.0.3",
@@ -37,11 +37,11 @@
     "css-minimizer-webpack-plugin": "3.0.2",
     "get-relative-luminance": "1.0.0",
     "html-webpack-plugin": "5.3.2",
-    "husky": "7.0.1",
+    "husky": "7.0.2",
     "is-ci": "3.0.0",
-    "jest": "27.0.6",
+    "jest": "27.1.0",
     "jest-puppeteer": "5.0.4",
-    "mini-css-extract-plugin": "2.2.0",
+    "mini-css-extract-plugin": "2.2.2",
     "npm-run-all": "4.1.5",
     "postcss": "8.3.6",
     "postcss-flexbugs-fixes": "5.0.2",
@@ -50,8 +50,8 @@
     "pug": "3.0.2",
     "pug-loader": "2.4.0",
     "puppeteer": "10.2.0",
-    "webpack": "5.49.0",
-    "webpack-cli": "4.7.2"
+    "webpack": "5.52.0",
+    "webpack-cli": "4.8.0"
   },
   "engine": {
     "node": ">=16.0.0"
