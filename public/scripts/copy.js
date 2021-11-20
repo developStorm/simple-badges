@@ -36,17 +36,14 @@ export default function initCopyButtons(window, document, navigator, storage) {
   $copyAsMarkdown.addEventListener('click', (event) => {
     event.preventDefault();
     selectCopyFormat(COPY_AS_MARKDOWN);
-    $copyAsMarkdown.blur();
   });
   $copyAsHTML.addEventListener('click', (event) => {
     event.preventDefault();
     selectCopyFormat(COPY_AS_HTML);
-    $copyAsHTML.blur();
   });
   $copyAsLink.addEventListener('click', (event) => {
     event.preventDefault();
     selectCopyFormat(COPY_AS_LINK);
-    $copyAsLink.blur();
   });
 
   // Init icon copy buttons
@@ -82,7 +79,6 @@ export default function initCopyButtons(window, document, navigator, storage) {
           break;
       }
 
-      $copyButton.blur();
       copyValue(value);
       setCopied($copyButton);
     });
@@ -95,7 +91,6 @@ export default function initCopyButtons(window, document, navigator, storage) {
       $copyInput.value = value;
       $copyInput.select();
       document.execCommand('copy');
-      $copyInput.blur();
     }
   }
 
