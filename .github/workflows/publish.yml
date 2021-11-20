@@ -36,7 +36,7 @@ jobs:
           npm run build
           sed -i "s/#DEVELOPMENT_BUILD#/$(git rev-parse --short ${{ github.sha }})/g" ./_site/script.js
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.5
+        uses: JamesIves/github-pages-deploy-action@4.1.6
         with:
           branch: gh-pages
           folder: _site
