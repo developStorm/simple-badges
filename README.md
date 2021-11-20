@@ -7,7 +7,7 @@
 </a>
 <h3 align="center">Simple Badges: <em>Website</em></h3>
 <p align="center">
-    Awesome Simple Icons on your favorite Shields.io Badges. Find it at <a href="https://developstorm.github.io/simple-badges/">Here</a>.</p>
+    Awesome Simple Icons on your favorite Shields.io Badges. Find it at <a href="https://badges.pages.dev/">Here</a>.</p>
 </p>
 
 ## What is this?
