@@ -96,18 +96,16 @@ describe('External links', () => {
     await page.goto(url.href);
   });
 
-  const menuLinksTitles = [
+  describe.each([
     'repository',
     'SimpleIcons',
     'Shields.io',
     'Legal disclaimer',
-  ];
-
-  menuLinksTitles.forEach((title) =>
+  ])(`is possible to click menu links`, (title) => {
     it(`is possible to click the link for ${title}`, async () => {
-      await expect(page).toClick('a', { title });
-    }),
-  );
+      await expect(page).toClick(`a[title="${title}"]`);
+    });
+  });
 });
 
 describe('Search', () => {
