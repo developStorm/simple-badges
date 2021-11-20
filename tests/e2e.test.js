@@ -95,17 +95,18 @@ describe('External links', () => {
     await page.goto(url.href);
   });
 
-  it('is possible to click the link to GitHub', async () => {
-    await expect(page).toClick('a', { text: 'GitHub' });
-  });
+  const menuLinksTitles = [
+    'repository',
+    'SimpleIcons',
+    'Shields.io',
+    'Legal disclaimer',
+  ];
 
-  it('is possible to click the Simple Icons link', async () => {
-    await expect(page).toClick('a', { text: 'Simple Icons' });
-  });
-
-  it('is possible to click the Shields.io link', async () => {
-    await expect(page).toClick('a', { text: 'Shields.io' });
-  });
+  menuLinksTitles.forEach((title) =>
+    it(`is possible to click the link for ${title}`, async () => {
+      await expect(page).toClick('a', { title });
+    }),
+  );
 });
 
 describe('Search', () => {
