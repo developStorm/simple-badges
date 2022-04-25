@@ -30,4 +30,4 @@ However, that is certainly not its only use. **Be creative!**
 The repo will fetch the latest version of Simple Icons everyday and post any updates if available.
 
 ### I can' t find the badge I want, what should I do?
-You can initiate a new icon request directly to the Simple Icons team at [here](https://github.com/simple-icons/simple-icons/issues/new?template=icon_request.md).
+You can initiate a new icon request directly to the Simple Icons team at [here](https://github.com/simple-icons/simple-icons/issues/new?assignees=&labels=new+icon&template=icon_request.yml).
