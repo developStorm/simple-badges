@@ -103,7 +103,7 @@ module.exports = (env, argv) => {
           twitterIcon: icons.find((icon) => icon.title === 'Twitter'),
           pageTitle: 'Simple Badges',
           pageDescription: `${icons.length} Awesome Simple Icons on your favorite Shields.io Badges.`,
-          pageUrl: 'https://developstorm.github.io/simple-badges',
+          pageUrl: 'https://badges.pages.dev',
         },
       }),
       new MiniCssExtractPlugin(),
