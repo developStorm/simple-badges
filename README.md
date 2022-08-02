@@ -5,6 +5,7 @@
 <a href="https://shields.io/">
 <img src="https://simpleicons.org/icons/shieldsdotio.svg" alt="Shields.io" height=64>
 </a>
+<a href="https://app.fossa.com/projects/git%2Bgithub.com%2FdevelopStorm%2Fsimple-badges?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FdevelopStorm%2Fsimple-badges.svg?type=shield"/></a>
 <h3 align="center">Simple Badges: <em>Website</em></h3>
 <p align="center">
     Awesome Simple Icons on your favorite Shields.io Badges. Find it at <a href="https://badges.pages.dev/">Here</a>.</p>
@@ -31,3 +32,7 @@ The repo will fetch the latest version of Simple Icons everyday and post any upd
 
 ### I can' t find the badge I want, what should I do?
 You can initiate a new icon request directly to the Simple Icons team at [here](https://github.com/simple-icons/simple-icons/issues/new?assignees=&labels=new+icon&template=icon_request.yml).
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FdevelopStorm%2Fsimple-badges.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FdevelopStorm%2Fsimple-badges?ref=badge_large)
