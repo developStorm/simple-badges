@@ -56,6 +56,6 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "simple-icons": "9.16.1"
+    "simple-icons": "9.17.0"
   }
 }
