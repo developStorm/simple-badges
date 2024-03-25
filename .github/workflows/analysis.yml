@@ -9,32 +9,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
+        uses: github/codeql-action/init@v3
         with:
           config-file: ./.github/codeql.yml
           languages: javascript
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
+        uses: github/codeql-action/analyze@v3
   lighthouse:
     name: Lighthouse
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Cache build
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: .cache/webpack
           key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
@@ -45,7 +45,7 @@ jobs:
       - name: Build website
         run: npm run build
       - name: Run Lighthouse
-        uses: treosh/lighthouse-ci-action@v9
+        uses: treosh/lighthouse-ci-action@v11
         with:
           configPath: ./lighthouserc.json
           uploadArtifacts: true

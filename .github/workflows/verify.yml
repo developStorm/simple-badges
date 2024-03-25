@@ -7,12 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -27,26 +27,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Cache build
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: .cache/webpack
           key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-
       - name: Cache Jest
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: .cache/jest
           key: ${{ runner.os }}-jest-${{ hashFiles('package-lock.json') }}-${{ github.run_number }}
@@ -60,7 +60,7 @@ jobs:
       - name: Run end-to-end tests
         run: npm run test:e2e -- --runInBand
       - name: Upload test screenshots
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: preview
           path: tests/_artifacts/*.png
