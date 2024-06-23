@@ -27,7 +27,7 @@ However, that is certainly not its only use. **Be creative!**
 
 ## Q&A
 ### How often this page is updated?
-The repo will fetch the latest version of Simple Icons everyday and post any updates if available.
+The repo will fetch the latest version of Simple Icons as soon as Shields.io updates it in dependencies. Usually it is scheduled to Fridays as stated [here](https://github.com/badges/shields/discussions/5369#discussioncomment-42381).
 
 ### I can' t find the badge I want, what should I do?
 You can initiate a new icon request directly to the Simple Icons team at [here](https://github.com/simple-icons/simple-icons/issues/new?assignees=&labels=new+icon&template=icon_request.yml).
