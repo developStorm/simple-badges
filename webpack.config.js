@@ -100,7 +100,7 @@ module.exports = (env, argv) => {
             };
           }),
           iconCount: icons.length,
-          twitterIcon: icons.find((icon) => icon.title === 'Twitter'),
+          twitterIcon: icons.find((icon) => icon.title === 'X'),
           pageTitle: 'Simple Badges',
           pageDescription: `${icons.length} Awesome Simple Icons on your favorite Shields.io Badges.`,
           pageUrl: 'https://badges.pages.dev',

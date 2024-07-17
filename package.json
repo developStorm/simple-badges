@@ -16,7 +16,7 @@
     "clean": "rm -rf _site tests/_artifacts",
     "format": "prettier --write .",
     "lint": "prettier --check .",
-    "serve": "anywhere -p 8080 -d ./_site",
+    "serve": "serve -p 8080 ./_site",
     "serve:watch": "run-p build:watch serve",
     "setup:husky": "is-ci || husky install",
     "test": "npm run test:unit",
@@ -27,7 +27,7 @@
   "devDependencies": {
     "@babel/core": "7.17.5",
     "@babel/preset-env": "7.16.11",
-    "anywhere": "1.5.0",
+    "serve": "14.2.3",
     "autoprefixer": "10.4.2",
     "babel-jest": "27.5.1",
     "copy-webpack-plugin": "10.2.4",
