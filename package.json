@@ -49,7 +49,7 @@
     "pug": "3.0.2",
     "pug-loader": "2.4.0",
     "puppeteer": "13.4.1",
-    "webpack": "5.70.0",
+    "webpack": "5.76.0",
     "webpack-cli": "4.9.2"
   },
   "engine": {
