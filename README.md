@@ -14,7 +14,7 @@
 Simple Badges is a fork of the [original](https://github.com/simple-icons/simple-icons-website) Simple Icons website, which made a combination of original icons with multiple styles of [Shields.io](https://shields.io/) badges to help you to find your favorite badges in a easy way.
 
 ## Where can I use this?
-I've seen people use Shields.IO badges for various scenarios, the most common one is use it for your GitHub [profile README](https://docs.github.com/en/github/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme) to showcase your skills ![JS](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=fff&style=flat-square), your software ![Android](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=fff&style=flat-square) or even things you like ![Minecraft](https://img.shields.io/badge/Minecraft-62B47A?logo=minecraft&logoColor=fff&style=flat-square). 
+I've seen people use Shields.IO badges for various scenarios, the most common one is use it for your GitHub [profile README](https://docs.github.com/en/github/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme) to showcase your skills ![JS](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=fff&style=flat-square), your software ![Android](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=fff&style=flat-square) or even things you like ![SpigotMC Badge](https://img.shields.io/badge/SpigotMC-ED8106?logo=spigotmc&logoColor=fff&style=flat-square). 
 
 However, that is certainly not its only use. **Be creative!**
 
