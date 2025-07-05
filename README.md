@@ -3,7 +3,7 @@
 <img src="https://simpleicons.org/icons/simpleicons.svg" alt="Simple Icons" width=64 height=64>
 </a>
 <a href="https://shields.io/">
-<img src="https://simpleicons.org/icons/shieldsdotio.svg" alt="Shields.io" height=64>
+<img src="https://simpleicons.org/icons/shieldsdotio.svg" alt="Shields.io" width=64 height=64>
 </a>
 <h3 align="center">Simple Badges: <em>Website</em></h3>
 <p align="center">
