@@ -48,40 +48,42 @@ export default function initCopyButtons(window, document, navigator, storage) {
 
   // Init icon copy buttons
   const $copyInput = document.getElementById('copy-input');
-  const $copyButtons = document.querySelectorAll('.copy-button');
+  const $virtualList = document.getElementById('virtual-list');
 
-  $copyButtons.forEach(($copyButton) => {
-    $copyButton.removeAttribute('disabled');
-    $copyButton.addEventListener('click', (event) => {
-      event.preventDefault();
+  $virtualList.addEventListener('click', (event) => {
+    event.preventDefault();
 
-      const $parentListItem = $copyButton.closest('li');
-      const iconEncodedTitle = $parentListItem.dataset.encoded_title;
-      const iconLogoColor = $parentListItem.dataset.logo_color;
-      const iconTitle = $parentListItem.dataset.title;
-      const iconColor = $parentListItem.dataset.color;
-      const iconSlug = $parentListItem.dataset.slug;
-      const iconStyle = $copyButton.dataset.style;
-      const badgeURL =
-        SHIELDS_BASE_URL +
-        `/badge/${iconEncodedTitle}-${iconColor}?logo=${iconSlug}&logoColor=${iconLogoColor}&style=${iconStyle}`;
+    const $copyButton = event.target.closest('.copy-button');
 
-      let value;
-      switch (activeCopyMethod) {
-        case COPY_AS_MARKDOWN:
-          value = `![${iconTitle} Badge](${badgeURL})`;
-          break;
-        case COPY_AS_HTML:
-          value = `<img src="${badgeURL}" alt="${iconTitle} Badge">`;
-          break;
-        case COPY_AS_LINK:
-          value = badgeURL;
-          break;
-      }
+    if (!$copyButton) return;
 
-      copyValue(value);
-      setCopied($copyButton);
-    });
+    const $parentListItem = event.target.closest('.grid-item');
+
+    const iconEncodedTitle = $parentListItem.dataset.encoded_title;
+    const iconLogoColor = $parentListItem.dataset.logo_color;
+    const iconTitle = $parentListItem.dataset.title;
+    const iconColor = $parentListItem.dataset.color;
+    const iconSlug = $parentListItem.dataset.slug;
+    const iconStyle = $copyButton.dataset.style;
+    const badgeURL =
+      SHIELDS_BASE_URL +
+      `/badge/${iconEncodedTitle}-${iconColor}?logo=${iconSlug}&logoColor=${iconLogoColor}&style=${iconStyle}`;
+
+    let value;
+    switch (activeCopyMethod) {
+      case COPY_AS_MARKDOWN:
+        value = `![${iconTitle} Badge](${badgeURL})`;
+        break;
+      case COPY_AS_HTML:
+        value = `<img src="${badgeURL}" alt="${iconTitle} Badge">`;
+        break;
+      case COPY_AS_LINK:
+        value = badgeURL;
+        break;
+    }
+
+    copyValue(value);
+    setCopied($copyButton);
   });
 
   function copyValue(value) {
