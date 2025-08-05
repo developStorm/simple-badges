@@ -29,4 +29,15 @@ const orderingControls = initOrdering(document, storage, (orderType) => {
   currentBadges = sortedData;
   scroller.setItems(groupIntoRows(sortedData, columnsCount));
 });
-initSearch(window.history, document, orderingControls, domUtils);
+initSearch(
+  window.history,
+  document,
+  orderingControls,
+  domUtils,
+  Object.values(badgesData),
+  (results, query) => {
+    const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
+    const sortedData = sortBadges(results);
+    currentBadges = sortedData;
+    scroller.setItems(groupIntoRows(sortedData, columnsCount));
+  });
