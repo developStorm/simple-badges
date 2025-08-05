@@ -1,6 +1,8 @@
 import VirtualScroller from 'virtual-scroller/dom';
 import badgesData from '/public/data/badges.json';
 import { createListElement } from './icons.js';
+import initOrdering from './ordering.js';
+import { ORDER_ALPHABETICALLY, ORDER_BY_COLOR } from './ordering.js';
 
 export default function initVirtualWindow(window, document, navigator, storage) {
   const container = document.getElementById('virtual-list');
@@ -10,8 +12,18 @@ export default function initVirtualWindow(window, document, navigator, storage) 
     return;
   }
 
+  const scroller = initScroller(container, badgesData);
+
+  initOrdering(document, storage, (orderType) => {
+    const columnsCount = getColumnsCount(container);
+    const sortedData = sortBadges(Object.values(badgesData), orderType);
+    scroller.setItems(groupIntoRows(sortedData, columnsCount));
+  });
+}
+
+function initScroller(container, badgesData) {
   const columnsCount = getColumnsCount(container);
-  const productsInRows = groupIntoRows(Object.values(badgesData), columnsCount);
+  const itemsRows = groupIntoRows(Object.values(badgesData), columnsCount);
 
   const renderItem = (row) => {
     const rowElement = document.createElement('div');
@@ -27,9 +39,11 @@ export default function initVirtualWindow(window, document, navigator, storage) 
 
   const scroller = new VirtualScroller(
     container,
-    productsInRows,
+    itemsRows,
     renderItem
   )
+
+  return scroller;
 }
 
 function groupIntoRows(items, columnsCount) {
@@ -38,6 +52,17 @@ function groupIntoRows(items, columnsCount) {
     rows.push(items.slice(i, i + columnsCount));
   }
   return rows;
+}
+
+function sortBadges(items, orderType) {
+  const sorted = [...items];
+  if (orderType === ORDER_ALPHABETICALLY) {
+    sorted.sort((a, b) => a.title.localeCompare(b.title));
+  } else if (orderType === ORDER_BY_COLOR) {
+    sorted.sort((a, b) => a.indexByColor - b.indexByColor);
+  }
+
+  return sorted;
 }
 
 function getColumnsCount(containerElement) {

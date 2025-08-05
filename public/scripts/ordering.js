@@ -10,7 +10,7 @@ const CLASS_ORDER_ALPHABETICALLY = 'order-alphabetically';
 const CLASS_ORDER_BY_COLOR = 'order-by-color';
 const CLASS_ORDER_BY_RELEVANCE = 'order-by-relevance';
 
-export default function initOrdering(document, storage) {
+export default function initOrdering(document, storage, onOrderChange) {
   let activeOrdering = DEFAULT_ORDERING;
   let preferredOrdering = DEFAULT_ORDERING;
 
@@ -70,6 +70,11 @@ export default function initOrdering(document, storage) {
     }
 
     activeOrdering = selected;
+
+    // use callback
+    if (onOrderChange) {
+      onOrderChange(activeOrdering);
+    }
   }
 
   function resetOrdering() {

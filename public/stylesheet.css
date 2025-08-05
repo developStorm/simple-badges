@@ -633,15 +633,6 @@ body.order-by-relevance #order-relevance {
   color: var(--color-button-text-hover);
 }
 
-/* Ordering grid-items */
-
-body.order-by-color .grid-item {
-  order: var(--order-color);
-}
-body.order-by-relevance .grid-item {
-  order: var(--order-relevance);
-}
-
 /* Footer */
 
 .footer {

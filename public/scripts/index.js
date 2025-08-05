@@ -19,6 +19,6 @@ loader.remove();
 initVirtualWindow(window, document, navigator, storage);
 initColorScheme(document, storage);
 initCopyButtons(window, document, navigator, storage);
-const orderingControls = initOrdering(document, storage);
+// const orderingControls = initOrdering(document, storage);
 initSearch(window.history, document, orderingControls, domUtils);
 
