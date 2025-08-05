@@ -10,6 +10,7 @@
   "author": "Simple Badges Collaborators",
   "license": "CC0-1.0",
   "scripts": {
+    "build-badges": "node scripts/build-badges.js",
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
     "build:watch": "npm run build:dev -- --watch",
@@ -56,6 +57,8 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "simple-icons": "15.8.0"
+    "badge-maker": "5.0.2",
+    "simple-icons": "15.8.0",
+    "virtual-scroller": "1.13.1"
   }
 }

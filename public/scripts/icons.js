@@ -2,6 +2,7 @@ import * as simpleIcons from 'simple-icons';
 import getRelativeLuminance from 'get-relative-luminance';
 import sortByColors from './color-sorting.js';
 import { normalizeSearchTerm } from './utils.js';
+import EllipseLoader from '/public/images/Ellipsis@1x-1.0s-200px-200px.svg';
 
 const icons = Object.values(simpleIcons);
 const sortedHexes = sortByColors(icons.map((icon) => icon.hex));
@@ -29,11 +30,11 @@ export function createListElement(icon) {
 
   const img = document.createElement('img');
   img.className = 'icon-preview';
-  img.src = `https://img.shields.io/badge/${ icon.badgeEncodedTitle }-${ icon.shortHex }?logo=${ icon.slug }&logoColor=${ icon.superLight
-    ? '000'
-    : 'fff' }&style=for-the-badge`;
+  img.src = EllipseLoader;
+  img.dataset.src = icon.badgeBase64Svg;
   img.loading = 'lazy';
   img.alt = `${ icon.title } badge`;
+  img.style.height = '28px';
 
   previewButton.appendChild(img);
   row.appendChild(previewButton);
@@ -134,3 +135,4 @@ function simplifyHexIfPossible(hex) {
 
   return hex;
 }
+
