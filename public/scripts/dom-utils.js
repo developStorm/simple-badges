@@ -29,3 +29,19 @@ export function toggleClass($el, clazz) {
     $el.classList.toggle(clazz);
   }
 }
+
+export function getColumnsCount(containerElement) {
+  const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+
+  // TODO Variables from CSS
+  const minColumnWidthRem = 13.5;
+  const gapRem = 0.75;
+
+  const minColumnWidthPx = minColumnWidthRem * rootFontSize;
+  const gapPx = gapRem * rootFontSize;
+
+  const containerWidth = containerElement.clientWidth;
+  const columns = Math.floor((containerWidth + gapPx) / (minColumnWidthPx + gapPx));
+
+  return columns;
+}

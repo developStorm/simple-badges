@@ -1,8 +1,8 @@
 import VirtualScroller from 'virtual-scroller/dom';
 import badgesData from '/public/data/badges.json';
 import { createListElement } from './icons.js';
-import initOrdering from './ordering.js';
-import { ORDER_ALPHABETICALLY, ORDER_BY_COLOR } from './ordering.js';
+import { getColumnsCount } from './dom-utils.js';
+import { groupIntoRows } from './utils.js';
 
 export default function initVirtualWindow(window, document, navigator, storage) {
   const container = document.getElementById('virtual-list');
@@ -12,27 +12,23 @@ export default function initVirtualWindow(window, document, navigator, storage) 
     return;
   }
 
-  const columnsCount = getColumnsCount(container);
+  let columnsCount = getColumnsCount(container);
   const itemsRows = groupIntoRows(Object.values(badgesData), columnsCount);
-
   const scroller = initScroller(container, itemsRows);
-
-  initOrdering(document, storage, (orderType) => {
-    const columnsCount = getColumnsCount(container);
-    const sortedData = sortBadges(Object.values(badgesData), orderType);
-    scroller.setItems(groupIntoRows(sortedData, columnsCount));
-  });
-
-  let lastColumnCount = columnsCount;
 
   window.addEventListener('resize', () => {
     const newColumnsCount = getColumnsCount(container);
 
-    if (newColumnsCount !== lastColumnCount) {
+    if (newColumnsCount !== columnsCount) {
       scroller.setItems(groupIntoRows(Object.values(badgesData), newColumnsCount));
-      lastColumnCount = newColumnsCount;
+      columnsCount = newColumnsCount;
     }
   })
+
+  return {
+    scroller,
+    virtualWindowContainer: container,
+  }
 }
 
 function initScroller(container, items) {
@@ -53,39 +49,4 @@ function initScroller(container, items) {
     items,
     renderItem
   );
-}
-
-function groupIntoRows(items, columnsCount) {
-  const rows = [];
-  for (let i = 0; i < items.length; i += columnsCount) {
-    rows.push(items.slice(i, i + columnsCount));
-  }
-  return rows;
-}
-
-function sortBadges(items, orderType) {
-  const sorted = [...items];
-  if (orderType === ORDER_ALPHABETICALLY) {
-    sorted.sort((a, b) => a.title.localeCompare(b.title));
-  } else if (orderType === ORDER_BY_COLOR) {
-    sorted.sort((a, b) => a.indexByColor - b.indexByColor);
-  }
-
-  return sorted;
-}
-
-function getColumnsCount(containerElement) {
-  const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-
-  // TODO Variables from CSS
-  const minColumnWidthRem = 13.5;
-  const gapRem = 0.75;
-
-  const minColumnWidthPx = minColumnWidthRem * rootFontSize;
-  const gapPx = gapRem * rootFontSize;
-
-  const containerWidth = containerElement.clientWidth;
-  const columns = Math.floor((containerWidth + gapPx) / (minColumnWidthPx + gapPx));
-
-  return columns;
 }

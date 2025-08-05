@@ -87,3 +87,14 @@ export default function initOrdering(document, storage, onOrderChange) {
     resetOrdering,
   };
 }
+
+export function sortBadges(items, orderType) {
+  const sorted = [...items];
+  if (orderType === ORDER_ALPHABETICALLY) {
+    sorted.sort((a, b) => a.title.localeCompare(b.title));
+  } else if (orderType === ORDER_BY_COLOR) {
+    sorted.sort((a, b) => a.indexByColor - b.indexByColor);
+  }
+
+  return sorted;
+}
