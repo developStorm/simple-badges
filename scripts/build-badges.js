@@ -24,7 +24,7 @@ for (const processedIcon of processedIcons) {
   try {
     const svgContent = makeBadge({
       color: processedIcon.shortHex,
-      message: processedIcon.badgeEncodedTitle,
+      message: processedIcon.title,
       logoBase64: processedIcon.logoBase64Svg,
       style: 'for-the-badge',
     })
