@@ -13,22 +13,6 @@ export default function initVirtualWindow(window, document, navigator, storage) 
   const columnsCount = getColumnsCount(container);
   const productsInRows = groupIntoRows(Object.values(badgesData), columnsCount);
 
-  const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const row = entry.target;
-
-        const images = row.querySelectorAll('.icon-preview');
-        images.forEach(image => {
-          console.log(1);
-          image.src = image.dataset.src;
-        })
-
-        observer.unobserve(row);
-      }
-    });
-  })
-
   const renderItem = (row) => {
     const rowElement = document.createElement('div');
     rowElement.className = 'grid';
@@ -37,8 +21,6 @@ export default function initVirtualWindow(window, document, navigator, storage) 
       const listElement = createListElement(item);
       rowElement.appendChild(listElement);
     });
-
-    observer.observe(rowElement);
 
     return rowElement;
   }
@@ -61,6 +43,7 @@ function groupIntoRows(items, columnsCount) {
 function getColumnsCount(containerElement) {
   const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
 
+  // TODO Variables from CSS
   const minColumnWidthRem = 13.5;
   const gapRem = 0.75;
 

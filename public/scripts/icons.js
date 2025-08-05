@@ -9,6 +9,17 @@ const sortedHexes = sortByColors(icons.map((icon) => icon.hex));
 
 export const processedIcons = prepareIcons(icons);
 
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const listItem = entry.target;
+      const image = listItem.querySelector('.icon-preview');
+      image.src = image.dataset.src;
+      observer.unobserve(listItem);
+    }
+  });
+})
+
 export function createListElement(icon) {
   const li = document.createElement('li');
   li.className = 'grid-item';
@@ -100,6 +111,8 @@ export function createListElement(icon) {
   footer.appendChild(squareButton);
   footer.appendChild(plasticButton);
   li.appendChild(footer);
+
+  observer.observe(li);
 
   return li;
 }
