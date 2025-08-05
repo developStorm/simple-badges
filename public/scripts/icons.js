@@ -21,15 +21,15 @@ const observer = new IntersectionObserver((entries, observer) => {
 })
 
 export function createListElement(icon) {
-  const li = document.createElement('li');
-  li.className = 'grid-item';
-  li.style.setProperty('--order-color', icon.indexByColor);
-  li.dataset.brand = icon.normalizedName;
-  li.dataset.title = icon.title;
-  li.dataset.encoded_title = icon.badgeEncodedTitle;
-  li.dataset.color = icon.shortHex;
-  li.dataset.logo_color = icon.superLight ? '000' : 'fff';
-  li.dataset.slug = icon.slug;
+  const listElement = document.createElement('div');
+  listElement.className = 'grid-item';
+  listElement.style.setProperty('--order-color', icon.indexByColor);
+  listElement.dataset.brand = icon.normalizedName;
+  listElement.dataset.title = icon.title;
+  listElement.dataset.encoded_title = icon.badgeEncodedTitle;
+  listElement.dataset.color = icon.shortHex;
+  listElement.dataset.logo_color = icon.superLight ? '000' : 'fff';
+  listElement.dataset.slug = icon.slug;
 
   const row = document.createElement('div');
   row.className = 'grid-item__row mv-2 fg-2';
@@ -37,7 +37,6 @@ export function createListElement(icon) {
   const previewButton = document.createElement('button');
   previewButton.className = 'grid-item__preview copy-button copy-svg';
   previewButton.title = `${ icon.title } SVG`;
-  // previewButton.disabled = true;
 
   const img = document.createElement('img');
   img.className = 'icon-preview';
@@ -49,7 +48,7 @@ export function createListElement(icon) {
 
   previewButton.appendChild(img);
   row.appendChild(previewButton);
-  li.appendChild(row);
+  listElement.appendChild(row);
 
   const secondRow = document.createElement('div');
   secondRow.className = 'grid-item__row';
@@ -81,7 +80,7 @@ export function createListElement(icon) {
   titleElement.textContent = icon.title;
   secondRow.appendChild(titleElement);
 
-  li.appendChild(secondRow);
+  listElement.appendChild(secondRow);
 
   const footer = document.createElement('div');
   footer.className = 'grid-item__footer';
@@ -90,31 +89,28 @@ export function createListElement(icon) {
   flatButton.className = 'grid-item__color copy-button copy-color';
   flatButton.title = `${ icon.title } Flat Badge`;
   flatButton.dataset.style = 'flat';
-  // flatButton.disabled = true;
   flatButton.textContent = 'Flat';
 
   const squareButton = document.createElement('button');
   squareButton.className = 'grid-item__color copy-button copy-color';
   squareButton.title = `${ icon.title } Square Badge`;
   squareButton.dataset.style = 'flat-square';
-  // squareButton.disabled = true;
   squareButton.textContent = 'Square';
 
   const plasticButton = document.createElement('button');
   plasticButton.className = 'grid-item__color copy-button copy-color';
   plasticButton.title = `${ icon.title } Plastic Badge`;
   plasticButton.dataset.style = 'plastic';
-  // plasticButton.disabled = true;
   plasticButton.textContent = 'Plastic';
 
   footer.appendChild(flatButton);
   footer.appendChild(squareButton);
   footer.appendChild(plasticButton);
-  li.appendChild(footer);
+  listElement.appendChild(footer);
 
-  observer.observe(li);
+  observer.observe(listElement);
 
-  return li;
+  return listElement;
 }
 
 function prepareIcons(iconList) {

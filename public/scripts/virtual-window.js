@@ -27,7 +27,7 @@ function initScroller(container, badgesData) {
 
   const renderItem = (row) => {
     const rowElement = document.createElement('div');
-    rowElement.className = 'grid';
+    rowElement.className = 'grid-row';
 
     row.forEach(item => {
       const listElement = createListElement(item);
