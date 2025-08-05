@@ -1,10 +1,9 @@
 import VirtualScroller from 'virtual-scroller/dom';
-import badgesData from '/public/data/badges.json';
 import { createListElement } from './icons.js';
 import { getColumnsCount } from './dom-utils.js';
 import { groupIntoRows } from './utils.js';
 
-export default function initVirtualWindow(window, document, navigator, storage) {
+export default function initVirtualWindow(window, document, getBadges) {
   const container = document.getElementById('virtual-list');
 
   if (!container) {
@@ -13,14 +12,14 @@ export default function initVirtualWindow(window, document, navigator, storage) 
   }
 
   let columnsCount = getColumnsCount(container);
-  const itemsRows = groupIntoRows(Object.values(badgesData), columnsCount);
+  const itemsRows = groupIntoRows(getBadges(), columnsCount);
   const scroller = initScroller(container, itemsRows);
 
   window.addEventListener('resize', () => {
     const newColumnsCount = getColumnsCount(container);
 
     if (newColumnsCount !== columnsCount) {
-      scroller.setItems(groupIntoRows(Object.values(badgesData), newColumnsCount));
+      scroller.setItems(groupIntoRows(getBadges(), newColumnsCount));
       columnsCount = newColumnsCount;
     }
   })

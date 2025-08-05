@@ -19,13 +19,14 @@ if (loader) {
 }
 
 const storage = newStorage(localStorage);
+let currentBadges = Object.values(badgesData);
 initColorScheme(document, storage);
 initCopyButtons(window, document, navigator, storage);
-const { scroller, virtualWindowContainer } = initVirtualWindow(window, document, navigator, storage);
+const { scroller, virtualWindowContainer } = initVirtualWindow(window, document, () => currentBadges);
 const orderingControls = initOrdering(document, storage, (orderType) => {
   const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
   const sortedData = sortBadges(Object.values(badgesData), orderType);
+  currentBadges = sortedData;
   scroller.setItems(groupIntoRows(sortedData, columnsCount));
 });
 initSearch(window.history, document, orderingControls, domUtils);
-
