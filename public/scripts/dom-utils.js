@@ -32,16 +32,14 @@ export function toggleClass($el, clazz) {
 
 export function getColumnsCount(containerElement) {
   const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+  const computedStyle = window.getComputedStyle(containerElement);
 
-  // TODO Variables from CSS
-  const minColumnWidthRem = 13.5;
-  const gapRem = 0.75;
+  const minColumnWidthRem = parseFloat(computedStyle.getPropertyValue('--grid-width')) || 13.5;
+  const gapRem = parseFloat(computedStyle.getPropertyValue('--grid-gap')) || 0.75;
 
   const minColumnWidthPx = minColumnWidthRem * rootFontSize;
   const gapPx = gapRem * rootFontSize;
 
   const containerWidth = containerElement.clientWidth;
-  const columns = Math.floor((containerWidth + gapPx) / (minColumnWidthPx + gapPx));
-
-  return columns;
+  return Math.floor((containerWidth + gapPx) / (minColumnWidthPx + gapPx));
 }

@@ -475,13 +475,16 @@ body.order-by-relevance #order-relevance {
 
 /* Grid */
 
-.grid-row {
+.grid-rows-container {
   --grid-width: 13.5rem;
+  --grid-gap: 0.75rem;
 
-  display: grid;
-  gap: 0.75rem;
-  grid-template-columns: repeat(auto-fill, minmax(var(--grid-width), 1fr));
-  margin: 0 0 0.75rem;
+  .grid-row {
+    display: grid;
+    gap: var(--grid-gap);
+    grid-template-columns: repeat(auto-fill, minmax(var(--grid-width), 1fr));
+    margin: 0 0 var(--grid-gap);
+  }
 }
 
 .grid-item--if-empty {
