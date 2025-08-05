@@ -25,7 +25,7 @@ initCopyButtons(window, document, navigator, storage);
 const { scroller, virtualWindowContainer } = initVirtualWindow(window, document, () => currentBadges);
 const orderingControls = initOrdering(document, storage, (orderType) => {
   const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
-  const sortedData = sortBadges(Object.values(badgesData), orderType);
+  const sortedData = sortBadges(currentBadges, orderType);
   currentBadges = sortedData;
   scroller.setItems(groupIntoRows(sortedData, columnsCount));
 });
