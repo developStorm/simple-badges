@@ -33,7 +33,7 @@ for (const processedIcon of processedIcons) {
     const badgeBase64Svg = `data:image/svg+xml;base64,${base64Encoded}`;
     const data = {
       ...processedIcon,
-      // badgeBase64Svg
+      badgeBase64Svg
     }
     delete data.logoBase64Svg;
 
