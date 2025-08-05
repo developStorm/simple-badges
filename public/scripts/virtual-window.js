@@ -12,19 +12,30 @@ export default function initVirtualWindow(window, document, navigator, storage) 
     return;
   }
 
-  const scroller = initScroller(container, badgesData);
+  const columnsCount = getColumnsCount(container);
+  const itemsRows = groupIntoRows(Object.values(badgesData), columnsCount);
+
+  const scroller = initScroller(container, itemsRows);
 
   initOrdering(document, storage, (orderType) => {
     const columnsCount = getColumnsCount(container);
     const sortedData = sortBadges(Object.values(badgesData), orderType);
     scroller.setItems(groupIntoRows(sortedData, columnsCount));
   });
+
+  let lastColumnCount = columnsCount;
+
+  window.addEventListener('resize', () => {
+    const newColumnsCount = getColumnsCount(container);
+
+    if (newColumnsCount !== lastColumnCount) {
+      scroller.setItems(groupIntoRows(Object.values(badgesData), newColumnsCount));
+      lastColumnCount = newColumnsCount;
+    }
+  })
 }
 
-function initScroller(container, badgesData) {
-  const columnsCount = getColumnsCount(container);
-  const itemsRows = groupIntoRows(Object.values(badgesData), columnsCount);
-
+function initScroller(container, items) {
   const renderItem = (row) => {
     const rowElement = document.createElement('div');
     rowElement.className = 'grid-row';
@@ -37,13 +48,11 @@ function initScroller(container, badgesData) {
     return rowElement;
   }
 
-  const scroller = new VirtualScroller(
+  return  new VirtualScroller(
     container,
-    itemsRows,
+    items,
     renderItem
-  )
-
-  return scroller;
+  );
 }
 
 function groupIntoRows(items, columnsCount) {
