@@ -38,7 +38,6 @@ const observer = new IntersectionObserver((entries, observer) => {
     }
 
     if (intersectingElements.has($listItem)) {
-      console.log('ADD IMAGE')
       $image.src = chunkData[$listItem.dataset.slug];
       $image.dataset.isBadgeImage = 'true';
       observer.unobserve($listItem);
@@ -47,6 +46,11 @@ const observer = new IntersectionObserver((entries, observer) => {
 }, { rootMargin: '0px 0px 100px 0px' });
 
 export function createListElement(icon) {
+  let badge;
+  if (loadedChunks[icon.chunkFile]) {
+    badge = loadedChunks[icon.chunkFile][icon.slug];
+  }
+
   const guidelinesHtml = icon.guidelines
     ? `
     <a class="grid-item__link link-button"
@@ -86,7 +90,7 @@ export function createListElement(icon) {
           icon.title
         } SVG">
           <img class="icon-preview"
-            src="${EllipseLoader}"
+            src="${badge || EllipseLoader}"
             data-chunk="${icon.chunkFile}"
             data-is-badge="false"
             loading="lazy"
