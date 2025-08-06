@@ -1,5 +1,5 @@
 import '../stylesheet.css';
-import badgesData from '../data/badges.json'
+import badgesData from '../data/badges.json';
 
 import * as domUtils from './dom-utils.js';
 import { groupIntoRows } from './utils.js';
@@ -25,18 +25,14 @@ initCopyButtons(window, document, navigator, storage);
 const { scroller, virtualWindowContainer } = initVirtualWindow(
   window,
   document,
-  () => currentBadges
+  () => currentBadges,
 );
-const orderingControls = initOrdering(
-  document,
-  storage,
-  (orderType) => {
-    const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
-    const sortedData = sortBadges(currentBadges, orderType);
-    currentBadges = sortedData;
-    scroller.setItems(groupIntoRows(sortedData, columnsCount));
-  }
-);
+const orderingControls = initOrdering(document, storage, (orderType) => {
+  const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
+  const sortedData = sortBadges(currentBadges, orderType);
+  currentBadges = sortedData;
+  scroller.setItems(groupIntoRows(sortedData, columnsCount));
+});
 initSearch(
   window.history,
   document,
@@ -48,5 +44,5 @@ initSearch(
     const sortedData = sortBadges(results);
     currentBadges = sortedData;
     scroller.setItems(groupIntoRows(sortedData, columnsCount));
-  }
+  },
 );

@@ -44,11 +44,11 @@ module.exports = {
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '');
   },
-  groupIntoRows: function(items, columnsCount) {
+  groupIntoRows: function (items, columnsCount) {
     const rows = [];
     for (let i = 0; i < items.length; i += columnsCount) {
       rows.push(items.slice(i, i + columnsCount));
     }
     return rows;
-  }
+  },
 };

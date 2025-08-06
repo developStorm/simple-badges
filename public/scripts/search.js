@@ -42,7 +42,14 @@ function setSearchQueryInURL(history, path, query) {
   }
 }
 
-export default function initSearch(history, document, ordering, domUtils, badges, onSearch) {
+export default function initSearch(
+  history,
+  document,
+  ordering,
+  domUtils,
+  badges,
+  onSearch,
+) {
   let activeQuery = '';
 
   const $searchInput = document.getElementById('search-input');
@@ -114,10 +121,12 @@ export default function initSearch(history, document, ordering, domUtils, badges
       return [...items];
     }
 
-    const results = items.map(item => {
-      const score = getScore(query, item.normalizedName);
-      return { ...item, relevanceScore: score };
-    }).filter(item => item.relevanceScore >= 0);
+    const results = items
+      .map((item) => {
+        const score = getScore(query, item.normalizedName);
+        return { ...item, relevanceScore: score };
+      })
+      .filter((item) => item.relevanceScore >= 0);
 
     return results;
   }

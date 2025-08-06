@@ -22,20 +22,20 @@ export default function initVirtualWindow(window, document, getBadges) {
       scroller.setItems(groupIntoRows(getBadges(), newColumnsCount));
       columnsCount = newColumnsCount;
     }
-  })
+  });
 
   return {
     scroller,
     virtualWindowContainer: $container,
-  }
+  };
 }
 
 function initScroller($container, items) {
-  function renderItem (row) {
+  function renderItem(row) {
     const $rowElement = document.createElement('div');
     $rowElement.className = 'grid-row';
 
-    row.forEach(item => {
+    row.forEach((item) => {
       const $listElement = createListElement(item);
       $rowElement.appendChild($listElement);
     });
@@ -43,9 +43,5 @@ function initScroller($container, items) {
     return $rowElement;
   }
 
-  return new VirtualScroller(
-    $container,
-    items,
-    renderItem
-  );
+  return new VirtualScroller($container, items, renderItem);
 }

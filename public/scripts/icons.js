@@ -1,7 +1,7 @@
 import EllipseLoader from '/public/images/Ellipsis@1x-1.0s-200px-200px.svg';
 
 const observer = new IntersectionObserver((entries, observer) => {
-  entries.forEach(entry => {
+  entries.forEach((entry) => {
     if (entry.isIntersecting) {
       const $listItem = entry.target;
       const $image = $listItem.querySelector('.icon-preview');
@@ -9,10 +9,11 @@ const observer = new IntersectionObserver((entries, observer) => {
       observer.unobserve($listItem);
     }
   });
-})
+});
 
 export function createListElement(icon) {
-  const guidelinesHtml = icon.guidelines ? `
+  const guidelinesHtml = icon.guidelines
+    ? `
     <a class="grid-item__link link-button"
        title="${icon.title} guidelines"
        href="${icon.guidelines}"
@@ -20,9 +21,11 @@ export function createListElement(icon) {
        target="_blank">
        Brand Guidelines
     </a>
-  ` : '';
+  `
+    : '';
 
-  const licenseHtml = icon.license ? `
+  const licenseHtml = icon.license
+    ? `
     <a class="grid-item__link link-button icon-legal"
        title="${icon.title} icon license"
        href="${icon.license.url}"
@@ -30,7 +33,8 @@ export function createListElement(icon) {
        target="_blank">
        ${icon.license.type}
     </a>
-  ` : '';
+  `
+    : '';
 
   const listItemHtml = `
     <div class="grid-item"
@@ -43,7 +47,9 @@ export function createListElement(icon) {
       data-slug="${icon.slug}">
       
       <div class="grid-item__row mv-2 fg-2">
-        <button class="grid-item__preview copy-button copy-svg" title="${icon.title} SVG">
+        <button class="grid-item__preview copy-button copy-svg" title="${
+          icon.title
+        } SVG">
           <img class="icon-preview"
             src="${EllipseLoader}"
             data-src="${icon.badgeBase64Svg}"
