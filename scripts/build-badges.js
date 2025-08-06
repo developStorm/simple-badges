@@ -8,19 +8,23 @@ const sortByColors = require('./color-sorting.js');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.join(PROJECT_ROOT, 'public', 'data');
-const OUTPUT_FILE_PATH = path.join(OUTPUT_DIR, 'badges.json');
+const OUTPUT_FILE_PATH = path.join(OUTPUT_DIR, 'badges-manifest.json');
+const CHUNK_SIZE = 100;
 
 const icons = Object.values(simpleIcons);
 const sortedHexes = sortByColors(icons.map((icon) => icon.hex));
 
 const processedIcons = prepareIcons(icons);
 const badgesData = {};
+const manifestData = {};
+let chunk = {};
+let chunkCounter = 0;
 
 if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
-for (const processedIcon of processedIcons) {
+for (const [index, processedIcon] of processedIcons.entries()) {
   try {
     const svgContent = makeBadge({
       color: processedIcon.shortHex,
@@ -31,13 +35,27 @@ for (const processedIcon of processedIcons) {
 
     const base64Encoded = Buffer.from(svgContent).toString('base64');
     const badgeBase64Svg = `data:image/svg+xml;base64,${base64Encoded}`;
-    const data = {
-      ...processedIcon,
-      badgeBase64Svg,
-    };
-    delete data.logoBase64Svg;
 
-    badgesData[processedIcon.slug] = data;
+    const chunkId = Math.floor(index / CHUNK_SIZE);
+    const chunkFileName = `badges-chunk-${chunkId}.json`;
+
+    manifestData[processedIcon.slug] = {
+      ...processedIcon,
+      chunkFile: chunkFileName,
+    };
+
+    // Delete heavy and unnecessary data
+    delete manifestData[processedIcon.slug].logoBase64Svg;
+
+    chunk[processedIcon.slug] = badgeBase64Svg;
+    chunkCounter++;
+
+    if (chunkCounter === CHUNK_SIZE || index === processedIcons.length - 1) {
+      const chunkFilePath = path.join(OUTPUT_DIR, chunkFileName);
+      fs.writeFileSync(chunkFilePath, JSON.stringify(chunk, null, 2));
+      chunk = {};
+      chunkCounter = 0;
+    }
   } catch (e) {
     console.error(
       `Error while generating badge ${processedIcon.slug}: ${e.message}`,
@@ -45,7 +63,7 @@ for (const processedIcon of processedIcons) {
   }
 }
 
-fs.writeFileSync(OUTPUT_FILE_PATH, JSON.stringify(badgesData, null, 2));
+fs.writeFileSync(OUTPUT_FILE_PATH, JSON.stringify(manifestData, null, 2));
 
 function prepareIcons(iconList) {
   return iconList.map((icon, iconIndex) => {
