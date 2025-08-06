@@ -1,13 +1,4 @@
-import * as simpleIcons from 'simple-icons';
-import getRelativeLuminance from 'get-relative-luminance';
-import sortByColors from './color-sorting.js';
-import { normalizeSearchTerm } from './utils.js';
 import EllipseLoader from '/public/images/Ellipsis@1x-1.0s-200px-200px.svg';
-
-const icons = Object.values(simpleIcons);
-const sortedHexes = sortByColors(icons.map((icon) => icon.hex));
-
-export const processedIcons = prepareIcons(icons);
 
 const observer = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
@@ -112,36 +103,3 @@ export function createListElement(icon) {
 
   return listElement;
 }
-
-function prepareIcons(iconList) {
-  return iconList.map((icon, iconIndex) => {
-    const luminance = getRelativeLuminance(`#${icon.hex}`);
-    return {
-      guidelines: icon.guidelines,
-      hex: icon.hex,
-      indexByAlpha: iconIndex,
-      indexByColor: sortedHexes.indexOf(icon.hex),
-      license: icon.license,
-      light: luminance < 0.4,
-      superLight: luminance > 0.55,
-      superDark: luminance < 0.02,
-      normalizedName: normalizeSearchTerm(icon.title),
-      path: icon.path,
-      shortHex: simplifyHexIfPossible(icon.hex),
-      slug: icon.slug,
-      title: icon.title,
-      badgeEncodedTitle: encodeURIComponent(
-        icon.title.replaceAll('-', '--').replaceAll('_', '__'),
-      ),
-    };
-  });
-}
-
-function simplifyHexIfPossible(hex) {
-  if (hex[0] === hex[1] && hex[2] === hex[3] && hex[4] == hex[5]) {
-    return `${hex[0]}${hex[2]}${hex[4]}`;
-  }
-
-  return hex;
-}
-
