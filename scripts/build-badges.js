@@ -52,18 +52,11 @@ function prepareIcons (iconList) {
     const logoSvg = changeSvgColor(icon.svg, iconColor);
 
     return {
-      // base64Svg: 'data:image/svg+xml;base64,' +
-      //   Buffer.from(icon.svg).toString('base64'),
       guidelines: icon.guidelines,
       hex: icon.hex,
-      // indexByAlpha: iconIndex,
       indexByColor: sortedHexes.indexOf(icon.hex),
       license: icon.license,
-      // light: luminance < 0.4,
-      // superLight: luminance > 0.55,
-      // superDark: luminance < 0.02,
       normalizedName: normalizeSearchTerm(icon.title),
-      // path: icon.path,
       shortHex: simplifyHexIfPossible(icon.hex),
       slug: icon.slug,
       title: icon.title,

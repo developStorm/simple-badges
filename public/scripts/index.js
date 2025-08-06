@@ -13,22 +13,30 @@ import initSearch from './search.js';
 
 console.log('Build #DEVELOPMENT_BUILD#');
 document.body.classList.remove('no-js');
-const loader = document.getElementById('loader');
-if (loader) {
-  loader.remove();
-}
 
-const storage = newStorage(localStorage);
+const $loader = document.getElementById('loader');
+if ($loader) $loader.remove();
+
 let currentBadges = Object.values(badgesData);
+const storage = newStorage(localStorage);
+
 initColorScheme(document, storage);
 initCopyButtons(window, document, navigator, storage);
-const { scroller, virtualWindowContainer } = initVirtualWindow(window, document, () => currentBadges);
-const orderingControls = initOrdering(document, storage, (orderType) => {
-  const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
-  const sortedData = sortBadges(currentBadges, orderType);
-  currentBadges = sortedData;
-  scroller.setItems(groupIntoRows(sortedData, columnsCount));
-});
+const { scroller, virtualWindowContainer } = initVirtualWindow(
+  window,
+  document,
+  () => currentBadges
+);
+const orderingControls = initOrdering(
+  document,
+  storage,
+  (orderType) => {
+    const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
+    const sortedData = sortBadges(currentBadges, orderType);
+    currentBadges = sortedData;
+    scroller.setItems(groupIntoRows(sortedData, columnsCount));
+  }
+);
 initSearch(
   window.history,
   document,
@@ -40,4 +48,5 @@ initSearch(
     const sortedData = sortBadges(results);
     currentBadges = sortedData;
     scroller.setItems(groupIntoRows(sortedData, columnsCount));
-  });
+  }
+);

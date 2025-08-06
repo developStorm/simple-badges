@@ -72,7 +72,6 @@ export default function initOrdering(document, storage, onOrderChange) {
 
     activeOrdering = selected;
 
-    // use callback
     if (onOrderChange) {
       onOrderChange(activeOrdering);
     }

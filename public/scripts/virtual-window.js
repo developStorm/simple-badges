@@ -4,19 +4,19 @@ import { getColumnsCount } from './dom-utils.js';
 import { groupIntoRows } from './utils.js';
 
 export default function initVirtualWindow(window, document, getBadges) {
-  const container = document.getElementById('virtual-list');
+  const $container = document.getElementById('virtual-list');
 
-  if (!container) {
+  if (!$container) {
     console.error('Virtual window element not found');
     return;
   }
 
-  let columnsCount = getColumnsCount(container);
+  let columnsCount = getColumnsCount($container);
   const itemsRows = groupIntoRows(getBadges(), columnsCount);
-  const scroller = initScroller(container, itemsRows);
+  const scroller = initScroller($container, itemsRows);
 
   window.addEventListener('resize', () => {
-    const newColumnsCount = getColumnsCount(container);
+    const newColumnsCount = getColumnsCount($container);
 
     if (newColumnsCount !== columnsCount) {
       scroller.setItems(groupIntoRows(getBadges(), newColumnsCount));
@@ -26,25 +26,25 @@ export default function initVirtualWindow(window, document, getBadges) {
 
   return {
     scroller,
-    virtualWindowContainer: container,
+    virtualWindowContainer: $container,
   }
 }
 
-function initScroller(container, items) {
-  const renderItem = (row) => {
-    const rowElement = document.createElement('div');
-    rowElement.className = 'grid-row';
+function initScroller($container, items) {
+  function renderItem (row) {
+    const $rowElement = document.createElement('div');
+    $rowElement.className = 'grid-row';
 
     row.forEach(item => {
-      const listElement = createListElement(item);
-      rowElement.appendChild(listElement);
+      const $listElement = createListElement(item);
+      $rowElement.appendChild($listElement);
     });
 
-    return rowElement;
+    return $rowElement;
   }
 
-  return  new VirtualScroller(
-    container,
+  return new VirtualScroller(
+    $container,
     items,
     renderItem
   );
