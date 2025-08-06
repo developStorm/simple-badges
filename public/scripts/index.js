@@ -1,5 +1,5 @@
 import '../stylesheet.css';
-import badgesData from '../data/badges.json';
+import badgesManifest from '../data/badges-manifest.json';
 
 import * as domUtils from './dom-utils.js';
 import { groupIntoRows } from './utils.js';
@@ -17,7 +17,7 @@ document.body.classList.remove('no-js');
 const $loader = document.getElementById('loader');
 if ($loader) $loader.remove();
 
-let currentBadges = Object.values(badgesData);
+let currentBadges = Object.values(badgesManifest);
 const storage = newStorage(localStorage);
 
 initColorScheme(document, storage);
@@ -38,7 +38,7 @@ initSearch(
   document,
   orderingControls,
   domUtils,
-  Object.values(badgesData),
+  Object.values(badgesManifest),
   (results, query) => {
     const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
     const sortedData = sortBadges(results);

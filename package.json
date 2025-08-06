@@ -10,7 +10,7 @@
   "author": "Simple Badges Collaborators",
   "license": "CC0-1.0",
   "scripts": {
-    "build-badges": "node scripts/build-badges.js",
+    "build:badges": "node scripts/build-badges.js",
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
     "build:watch": "npm run build:dev -- --watch",

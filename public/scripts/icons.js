@@ -1,15 +1,31 @@
 import EllipseLoader from '/public/images/Ellipsis@1x-1.0s-200px-200px.svg';
 
+const loadedChunks = {};
+
 const observer = new IntersectionObserver((entries, observer) => {
-  entries.forEach((entry) => {
+  entries.forEach(async (entry) => {
     if (entry.isIntersecting) {
       const $listItem = entry.target;
       const $image = $listItem.querySelector('.icon-preview');
-      $image.src = $image.dataset.src;
-      observer.unobserve($listItem);
+      const chunkFile = $image.dataset.chunk;
+      const imageSrc = $image.dataset.imageSrc;
+
+      if (!imageSrc && chunkFile) {
+        if (!loadedChunks[chunkFile]) {
+          const chunkResponse = await fetch(`/public/data/${chunkFile}`);
+          loadedChunks[chunkFile] = await chunkResponse.json();
+
+          console.log(loadedChunks[chunkFile])
+        }
+
+        const imageData = loadedChunks[chunkFile][$listItem.dataset.slug];
+        $image.src = imageData;
+        $image.dataset.imageSrc = imageData;
+        observer.unobserve($listItem);
+      }
     }
   });
-});
+}, { rootMargin: '0px 0px 100px 0px' });
 
 export function createListElement(icon) {
   const guidelinesHtml = icon.guidelines
@@ -52,7 +68,8 @@ export function createListElement(icon) {
         } SVG">
           <img class="icon-preview"
             src="${EllipseLoader}"
-            data-src="${icon.badgeBase64Svg}"
+            data-chunk="${icon.chunkFile}"
+            data-image-src=""
             loading="lazy"
             alt="${icon.title} badge"
             style="height: 28px;">

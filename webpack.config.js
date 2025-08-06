@@ -58,6 +58,10 @@ module.exports = (env, argv) => {
             from: path.resolve(ROOT_DIR, 'images'),
             to: path.resolve(OUT_DIR, 'images'),
           },
+          {
+            from: "public/data/badges-chunk-*.json",
+            to: path.resolve(OUT_DIR, 'public/data/[name][ext]'),
+          }
         ],
       }),
       new HtmlWebpackPlugin({
