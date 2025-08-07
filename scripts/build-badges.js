@@ -9,16 +9,18 @@ const sortByColors = require('./color-sorting.js');
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.join(PROJECT_ROOT, 'public', 'data');
 const OUTPUT_FILE_PATH = path.join(OUTPUT_DIR, 'badges-manifest.json');
-const CHUNK_SIZE = 100;
+const CHUNK_MAX_SIZE_KB = 200;
+const CHUNK_MAX_SIZE_BYTES = CHUNK_MAX_SIZE_KB * 1024;
 
 const icons = Object.values(simpleIcons);
 const sortedHexes = sortByColors(icons.map((icon) => icon.hex));
 
 const processedIcons = prepareIcons(icons);
-const badgesData = {};
 const manifestData = {};
-let chunk = {};
-let chunkCounter = 0;
+
+let currentChunk = {};
+let currentChunkSize = 0;
+let chunkId = 0;
 
 if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
@@ -35,27 +37,22 @@ for (const [index, processedIcon] of processedIcons.entries()) {
 
     const base64Encoded = Buffer.from(svgContent).toString('base64');
     const badgeBase64Svg = `data:image/svg+xml;base64,${base64Encoded}`;
+    const dataSize = Buffer.byteLength(JSON.stringify(badgeBase64Svg), 'utf8');
 
-    const chunkId = Math.floor(index / CHUNK_SIZE);
-    const chunkFileName = `badges-chunk-${chunkId}.json`;
+    if (currentChunkSize + dataSize > CHUNK_MAX_SIZE_BYTES && Object.keys(currentChunk).length > 0) {
+      writeCurrentChunkToFile();
+    }
+
+    currentChunk[processedIcon.slug] = badgeBase64Svg;
+    currentChunkSize += dataSize;
 
     manifestData[processedIcon.slug] = {
       ...processedIcon,
-      chunkFile: chunkFileName,
+      chunkFile: `badges-chunk-${chunkId}.json`,
     };
 
     // Delete heavy and unnecessary data
     delete manifestData[processedIcon.slug].logoBase64Svg;
-
-    chunk[processedIcon.slug] = badgeBase64Svg;
-    chunkCounter++;
-
-    if (chunkCounter === CHUNK_SIZE || index === processedIcons.length - 1) {
-      const chunkFilePath = path.join(OUTPUT_DIR, chunkFileName);
-      fs.writeFileSync(chunkFilePath, JSON.stringify(chunk, null, 2));
-      chunk = {};
-      chunkCounter = 0;
-    }
   } catch (e) {
     console.error(
       `Error while generating badge ${processedIcon.slug}: ${e.message}`,
@@ -63,7 +60,22 @@ for (const [index, processedIcon] of processedIcons.entries()) {
   }
 }
 
+// save last chunk
+if (Object.keys(currentChunk).length > 0) {
+  writeCurrentChunkToFile();
+}
+
 fs.writeFileSync(OUTPUT_FILE_PATH, JSON.stringify(manifestData, null, 2));
+
+function writeCurrentChunkToFile() {
+  const chunkFileName = `badges-chunk-${chunkId}.json`;
+  const chunkFilePath = path.join(OUTPUT_DIR, chunkFileName);
+  fs.writeFileSync(chunkFilePath, JSON.stringify(currentChunk, null, 2));
+
+  currentChunk = {};
+  currentChunkSize = 0;
+  chunkId++;
+}
 
 function prepareIcons(iconList) {
   return iconList.map((icon, iconIndex) => {
