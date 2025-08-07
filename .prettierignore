@@ -5,3 +5,4 @@
 
 # Exclude generated files
 _site/
+!/public/data/
