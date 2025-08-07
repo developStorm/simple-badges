@@ -86,9 +86,10 @@ export function createListElement(icon) {
       data-slug="${icon.slug}">
       
       <div class="grid-item__row mv-2 fg-2">
-        <button class="grid-item__preview copy-button copy-svg" title="${
-          icon.title
-        } SVG">
+        <button class="grid-item__preview copy-button copy-svg" 
+          title="${ icon.title } SVG"
+          data-style="for-the-badge"
+        >
           <img class="icon-preview"
             src="${badge || EllipseLoader}"
             data-chunk="${icon.chunkFile}"
