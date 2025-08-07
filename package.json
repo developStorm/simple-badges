@@ -10,8 +10,9 @@
   "author": "Simple Badges Collaborators",
   "license": "CC0-1.0",
   "scripts": {
+    "build": "run-s build:badges build:prod",
     "build:badges": "node scripts/build-badges.js",
-    "build": "webpack --mode production",
+    "build:prod": "webpack --mode production",
     "build:dev": "webpack --mode development",
     "build:watch": "npm run build:dev -- --watch",
     "clean": "rm -rf _site tests/_artifacts",
