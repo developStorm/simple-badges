@@ -105,7 +105,10 @@ export default function initSearch(
     }
 
     const results = searchBadges(badges, query);
-    onSearch(results, query);
+
+    if (typeof onSearch === 'function') {
+      onSearch(results, query);
+    }
 
     if (results.length === 0) {
       domUtils.showElement($gridItemIfEmpty);
@@ -117,6 +120,10 @@ export default function initSearch(
   }
 
   function searchBadges(items, query) {
+    if (!items || !items.length) {
+      return [];
+    }
+
     if (!query) {
       return [...items];
     }

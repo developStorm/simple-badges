@@ -72,7 +72,7 @@ export default function initOrdering(document, storage, onOrderChange) {
 
     activeOrdering = selected;
 
-    if (onOrderChange) {
+    if (typeof onOrderChange === 'function') {
       onOrderChange(activeOrdering);
     }
   }
