@@ -8,7 +8,7 @@ import newStorage from './storage.js';
 import initVirtualWindow from './virtual-window.js';
 import initCopyButtons from './copy.js';
 import initColorScheme from './color-scheme.js';
-import initOrdering, { sortBadges } from './ordering.js';
+import initOrdering from './ordering.js';
 import initSearch from './search.js';
 
 console.log('Build #DEVELOPMENT_BUILD#');
@@ -29,7 +29,7 @@ const { scroller, virtualWindowContainer } = initVirtualWindow(
 );
 const orderingControls = initOrdering(document, storage, (orderType) => {
   const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
-  const sortedData = sortBadges(currentBadges, orderType);
+  const sortedData = orderingControls.sortBadges(currentBadges, orderType);
   currentBadges = sortedData;
   scroller.setItems(groupIntoRows(sortedData, columnsCount));
 });
@@ -41,7 +41,7 @@ initSearch(
   Object.values(badgesManifest),
   (results, query) => {
     const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
-    const sortedData = sortBadges(results);
+    const sortedData = orderingControls.sortBadges(results);
     currentBadges = sortedData;
     scroller.setItems(groupIntoRows(sortedData, columnsCount));
   },
