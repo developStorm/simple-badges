@@ -182,6 +182,93 @@ describe('Search', () => {
       );
       done();
     });
+
+    it('calls callback (onSearch) with correct results and normalized query', () => {
+      const onSearch = jest.fn();
+      const searchValue = 'GIT';
+      const badges = [
+        { normalizedName: 'google', title: 'Google' },
+        { normalizedName: 'github', title: 'GitHub' },
+      ];
+
+      initSearch(history, document, ordering, domUtils, badges, onSearch);
+
+      const inputListener = inputEventListeners.get('input');
+      const event = newEventMock();
+
+      $searchInput.value = searchValue;
+      inputListener(event);
+      jest.runAllTimers();
+
+      expect(onSearch).toHaveBeenCalled();
+      const [results, normalizedQuery] = onSearch.mock.calls.pop();
+      expect(normalizedQuery).toBe('git');
+      expect(results.every(r => typeof r.relevanceScore === 'number')).toBe(true);
+    })
+  });
+
+  describe('Badge Searching Logic', () => {
+    it('returns an empty array if no badges are passed', () => {
+      const searchValue = 'FOO';
+      const onSearch = jest.fn();
+      const badges = [];
+
+      initSearch(history, document, ordering, domUtils, badges, onSearch);
+
+      const inputListener = inputEventListeners.get('input');
+      const event = newEventMock();
+
+      $searchInput.value = searchValue;
+      inputListener(event);
+      jest.runAllTimers();
+
+      const [results, normalizedQuery] = onSearch.mock.calls.pop();
+      expect(normalizedQuery).toBe('foo');
+      expect(results).toEqual([]);
+    });
+
+    it('returns the entire array if no search query is passed', () => {
+      const searchValue = '';
+      const onSearch = jest.fn();
+      const badges = [
+        { normalizedName: 'google' },
+        { normalizedName: 'github' },
+      ];
+
+      initSearch(history, document, ordering, domUtils, badges, onSearch);
+
+      const inputListener = inputEventListeners.get('input');
+      const event = newEventMock();
+
+      $searchInput.value = searchValue;
+      inputListener(event);
+      jest.runAllTimers();
+
+      const [results, normalizedQuery] = onSearch.mock.calls.pop();
+      expect(normalizedQuery).toBe('');
+      expect(results.map(r => r.normalizedName)).toEqual(['google', 'github']);
+    });
+
+    it('filters badges by score', () => {
+      const searchValue = 'ac';
+      const onSearch = jest.fn();
+      const badges = [
+        { normalizedName: 'abc', title: 'A' }, // score >= 0 for query "ac"
+        { normalizedName: 'zzz', title: 'Z' }, // score -1 for query "ac"
+      ];
+
+      initSearch(history, document, ordering, domUtils, badges, onSearch);
+
+      const inputListener = inputEventListeners.get('input');
+      const event = newEventMock();
+
+      $searchInput.value = searchValue;
+      inputListener(event);
+      jest.runAllTimers();
+
+      const [results] = onSearch.mock.calls.pop();
+      expect(results.map(r => r.title)).toEqual(['A']);
+    })
   });
 
   describe('URL query', () => {
