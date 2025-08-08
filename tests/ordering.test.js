@@ -7,6 +7,7 @@ const { localStorage } = require('./mocks/local-storage.mock.js');
 
 const initOrdering = require('../public/scripts/ordering.js').default;
 const { STORAGE_KEY_ORDERING } = require('../public/scripts/storage.js');
+const { ORDER_BY_COLOR, ORDER_BY_RELEVANCE } = require('../public/scripts/ordering')
 
 describe('Ordering', () => {
   beforeEach(() => {
@@ -150,4 +151,39 @@ describe('Ordering', () => {
       storedValue,
     );
   });
+
+  it('sortBadges sorts by selected or explicit order type', () => {
+    const orderControls = initOrdering(document, localStorage);
+
+    const badges = [
+      { title: 'Bravo', indexByColor: 2, relevanceScore: 20 },
+      { title: 'Alpha', indexByColor: 3, relevanceScore: 10 },
+      { title: 'Zulu', indexByColor: 1, relevanceScore: 30 },
+    ];
+
+    const byAlpha = orderControls.sortBadges(badges);
+    expect(byAlpha.map(i => i.title)).toEqual(['Alpha', 'Bravo', 'Zulu']);
+
+    const byColor = orderControls.sortBadges(badges, ORDER_BY_COLOR);
+    expect(byColor.map(i => i.indexByColor)).toEqual([1, 2, 3]);
+
+    const byRelevance = orderControls.sortBadges(badges, ORDER_BY_RELEVANCE);
+    expect(byRelevance.map(i => i.relevanceScore)).toEqual([10, 20, 30]);
+  });
+
+  it ('sortBadges does not mutate the original array', () => {
+    const orderControls = initOrdering(document, localStorage);
+
+    const badges = [
+      { title: 'Bravo', indexByColor: 2, relevanceScore: 20 },
+      { title: 'Alpha', indexByColor: 3, relevanceScore: 10 },
+      { title: 'Zulu', indexByColor: 1, relevanceScore: 30 },
+    ];
+
+    orderControls.sortBadges(badges);
+    orderControls.sortBadges(badges, ORDER_BY_COLOR);
+    orderControls.sortBadges(badges, ORDER_BY_RELEVANCE);
+
+    expect(badges.map(i => i.title)).toEqual(['Bravo', 'Alpha', 'Zulu']);
+  })
 });
