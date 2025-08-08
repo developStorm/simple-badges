@@ -7,7 +7,7 @@ const { localStorage } = require('./mocks/local-storage.mock.js');
 
 const initOrdering = require('../public/scripts/ordering.js').default;
 const { STORAGE_KEY_ORDERING } = require('../public/scripts/storage.js');
-const { ORDER_BY_COLOR, ORDER_BY_RELEVANCE } = require('../public/scripts/ordering')
+const { ORDER_ALPHABETICALLY, ORDER_BY_COLOR, ORDER_BY_RELEVANCE } = require('../public/scripts/ordering')
 
 describe('Ordering', () => {
   beforeEach(() => {
@@ -185,5 +185,54 @@ describe('Ordering', () => {
       orderControls.sortBadges(badges, ORDER_BY_RELEVANCE);
       expect(badges.map(i => i.title)).toEqual(['Bravo', 'Alpha', 'Zulu']);
     })
+  });
+
+  it('calls callback (onOrderChange) on user selection', () => {
+    const eventListeners = new Map();
+    const $alpha = newElementMock('#order-alpha');
+    const $color = newElementMock('#order-color');
+    const $relevance = newElementMock('#order-relevance');
+
+    $alpha.addEventListener.mockImplementation((n, fn) => eventListeners.set(`a:${n}`, fn));
+    $color.addEventListener.mockImplementation((n, fn) => eventListeners.set(`c:${n}`, fn));
+    $relevance.addEventListener.mockImplementation((n, fn) => eventListeners.set(`r:${n}`, fn));
+
+    document.getElementById.mockImplementation((id) => {
+      if (id === 'order-alpha') return $alpha;
+      if (id === 'order-color') return $color;
+      if (id === 'order-relevance') return $relevance;
+      return newElementMock(id);
+    });
+
+    const onOrderChange = jest.fn();
+    initOrdering(document, localStorage, onOrderChange);
+
+    // click color => callback with 'color'
+    eventListeners.get('c:click')({ preventDefault: jest.fn() });
+    expect(onOrderChange).toHaveBeenLastCalledWith(ORDER_BY_COLOR);
+
+    // click relevance => callback with 'relevance' and without recording in storage
+    localStorage.setItem.mockClear();
+    eventListeners.get('r:click')({ preventDefault: jest.fn() });
+    expect(localStorage.setItem).not.toHaveBeenCalled();
+    expect(onOrderChange).toHaveBeenLastCalledWith(ORDER_BY_RELEVANCE);
+  });
+
+  it('calls callback (onOrderChange) during init if storage has a value', () => {
+    localStorage.__setStoredValueFor(STORAGE_KEY_ORDERING, ORDER_BY_COLOR);
+    const onOrderChange = jest.fn();
+
+    initOrdering(document, localStorage, onOrderChange);
+    expect(onOrderChange).toHaveBeenCalledWith(ORDER_BY_COLOR);
+  });
+
+  it('does nothing when selecting the same ordering again', () => {
+    const onOrderChange = jest.fn();
+    const orderControls = initOrdering(document, localStorage, onOrderChange);
+
+    // by default alphabetically
+    onOrderChange.mockClear();
+    orderControls.selectOrdering(ORDER_ALPHABETICALLY);
+    expect(onOrderChange).not.toHaveBeenCalled();
   });
 });
