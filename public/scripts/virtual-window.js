@@ -7,8 +7,7 @@ export default function initVirtualWindow(window, document, getBadges) {
   const $container = document.getElementById('virtual-list');
 
   if (!$container) {
-    console.error('Virtual window element not found');
-    return;
+    throw new Error('Virtual window element not found.');
   }
 
   let columnsCount = getColumnsCount($container);
