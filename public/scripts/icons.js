@@ -1,6 +1,6 @@
 import EllipseLoader from '/public/images/Ellipsis@1x-1.0s-200px-200px.svg';
 
-const imageCache = new Map();
+export const imageCache = new Map();
 
 export function createListElement(icon) {
   const baseUrl = 'https://img.shields.io/badge/';
