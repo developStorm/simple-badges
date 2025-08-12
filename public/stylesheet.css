@@ -770,9 +770,3 @@ body.order-by-relevance #order-relevance {
     margin: 30px auto;
   }
 }
-
-.grid-item__preview svg {
-  font-size: 100px;
-  font-family: "Verdana", "Geneva", "DejaVu Sans", sans-serif;
-  font-weight: bold;
-}

@@ -1,5 +1,4 @@
 import '../stylesheet.css';
-import badgesManifest from '../data/badges-manifest.json';
 
 import * as domUtils from './dom-utils.js';
 import { groupIntoRows } from './utils.js';
@@ -17,7 +16,7 @@ document.body.classList.remove('no-js');
 const $loader = document.getElementById('loader');
 if ($loader) $loader.remove();
 
-let currentBadges = Object.values(badgesManifest);
+let currentBadges = ICONS_DATA;
 const storage = newStorage(localStorage);
 
 initColorScheme(document, storage);
@@ -27,9 +26,8 @@ const { scroller, virtualWindowContainer } = initVirtualWindow(
   document,
   () => currentBadges,
 );
-const orderingControls = initOrdering(document, storage, (orderType) => {
+const orderingControls = initOrdering(document, storage, () => currentBadges,(sortedData) => {
   const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
-  const sortedData = orderingControls.sortBadges(currentBadges, orderType);
   currentBadges = sortedData;
   scroller.setItems(groupIntoRows(sortedData, columnsCount));
 });
@@ -38,7 +36,7 @@ initSearch(
   document,
   orderingControls,
   domUtils,
-  Object.values(badgesManifest),
+  ICONS_DATA,
   (results, query) => {
     const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
     const sortedData = orderingControls.sortBadges(results);

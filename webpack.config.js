@@ -1,15 +1,29 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const getRelativeLuminance = require('get-relative-luminance').default;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const simpleIcons = require('simple-icons');
+const webpack = require('webpack');
+
+const { normalizeSearchTerm } = require('./public/scripts/utils.js');
+const sortByColors = require('./scripts/color-sorting.js');
 
 const icons = Object.values(simpleIcons);
+const sortedHexes = sortByColors(icons.map((icon) => icon.hex));
 
 const NODE_MODULES = path.resolve(__dirname, 'node_modules');
 const OUT_DIR = path.resolve(__dirname, '_site');
 const ROOT_DIR = path.resolve(__dirname, 'public');
+
+function simplifyHexIfPossible(hex) {
+  if (hex[0] === hex[1] && hex[2] === hex[3] && hex[4] == hex[5]) {
+    return `${hex[0]}${hex[2]}${hex[4]}`;
+  }
+
+  return hex;
+}
 
 let displayIcons = icons;
 if (process.env.TEST_ENV) {
@@ -18,6 +32,29 @@ if (process.env.TEST_ENV) {
   // failed tests due to timeouts.
   displayIcons = icons.slice(0, 255);
 }
+
+const iconsData = displayIcons.map((icon, iconIndex) => {
+  const luminance = getRelativeLuminance(`#${icon.hex}`);
+  return {
+    // base64Svg: Buffer.from(icon.svg).toString('base64'),
+    guidelines: icon.guidelines,
+    hex: icon.hex,
+    indexByAlpha: iconIndex,
+    indexByColor: sortedHexes.indexOf(icon.hex),
+    license: icon.license,
+    light: luminance < 0.4,
+    superLight: luminance > 0.55,
+    superDark: luminance < 0.02,
+    normalizedName: normalizeSearchTerm(icon.title),
+    path: icon.path,
+    shortHex: simplifyHexIfPossible(icon.hex),
+    slug: icon.slug,
+    title: icon.title,
+    badgeEncodedTitle: encodeURIComponent(
+      icon.title.replaceAll('-', '--').replaceAll('_', '__'),
+    ),
+  };
+});
 
 module.exports = (env, argv) => {
   return {
@@ -58,10 +95,6 @@ module.exports = (env, argv) => {
             from: path.resolve(ROOT_DIR, 'images'),
             to: path.resolve(OUT_DIR, 'images'),
           },
-          {
-            from: "public/data/sprite-badges-chunk-*.svg",
-            to: path.resolve(OUT_DIR, 'public/data/[name][ext]'),
-          }
         ],
       }),
       new HtmlWebpackPlugin({
@@ -76,6 +109,9 @@ module.exports = (env, argv) => {
         },
       }),
       new MiniCssExtractPlugin(),
+      new webpack.DefinePlugin({
+        ICONS_DATA: JSON.stringify(iconsData),
+      }),
     ],
     optimization: {
       minimizer:

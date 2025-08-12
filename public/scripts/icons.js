@@ -1,56 +1,18 @@
 import EllipseLoader from '/public/images/Ellipsis@1x-1.0s-200px-200px.svg';
-import { loadSvgSprite } from './sprites.js';
 
-const intersectingElements = new Set();
-const fetchingPromises = new Map();
-const loadedSprites = new Set();
-
-const observer = new IntersectionObserver((entries, observer) => {
-  entries.forEach(async ({ target: $listItem, isIntersecting }) => {
-    const $image = $listItem.querySelector('.icon-preview');
-    const $previewContainer = $listItem.querySelector('.grid-item__preview');
-    const slug = $listItem.dataset.slug;
-    const chunkFile = $image.dataset.chunk;
-
-    if (!isIntersecting) {
-      intersectingElements.delete($listItem);
-      return;
-    }
-
-    if (loadedSprites.has(chunkFile)) {
-      $previewContainer.innerHTML = '';
-      renderIcon($previewContainer, slug);
-      observer.unobserve($listItem);
-      return;
-    }
-
-    intersectingElements.add($listItem);
-
-    if (fetchingPromises.has(chunkFile)) {
-      fetchingPromises.get(chunkFile).then(() => {
-        if (intersectingElements.has($listItem)) {
-          $previewContainer.innerHTML = '';
-          renderIcon($previewContainer, slug);
-        }
-        observer.unobserve($listItem);
-      });
-
-      return;
-    }
-
-    fetchingPromises.set(
-      chunkFile,
-      loadSvgSprite(`/public/data/${chunkFile}`)
-        .then(data => {
-          loadedSprites.add(chunkFile);
-          $previewContainer.innerHTML = '';
-          renderIcon($previewContainer, slug);
-      }),
-    )
-  });
-}, { rootMargin: '0px 0px 100px 0px' });
+const imageCache = new Map();
 
 export function createListElement(icon) {
+  const baseUrl = 'https://img.shields.io/badge/';
+  const badgeUrl = new URL(`${icon.badgeEncodedTitle}-${icon.shortHex}`, baseUrl);
+  badgeUrl.searchParams.set('logo', icon.slug);
+  badgeUrl.searchParams.set('logoColor', icon.superLight ? '000' : 'fff');
+  badgeUrl.searchParams.set('style', 'for-the-badge');
+
+  const remoteImageUrl = badgeUrl.href;
+  const cachedImage = imageCache.get(remoteImageUrl);
+  const initialSrc = cachedImage || EllipseLoader;
+
   const guidelinesHtml = icon.guidelines
     ? `
     <a class="grid-item__link link-button"
@@ -75,19 +37,6 @@ export function createListElement(icon) {
   `
     : '';
 
-  const iconPreview = loadedSprites.has(icon.chunkFile)
-    ? `
-    <svg class="icon-preview" height="28"><use href="#${icon.slug}"></use></svg>
-    `
-    : `
-    <img class="icon-preview"
-      src="${EllipseLoader}"
-      data-chunk="${icon.chunkFile}"
-      loading="lazy"
-      alt="${icon.title} badge"
-      style="height: 28px;">
-    `;
-
   const listItemHtml = `
     <div class="grid-item"
       style="--order-color: ${icon.indexByColor};"
@@ -103,7 +52,11 @@ export function createListElement(icon) {
           title="${ icon.title } SVG"
           data-style="for-the-badge"
         >
-         ${iconPreview}
+        <img class="icon-preview"
+          style="height: 28px;"
+          src="${initialSrc}"
+          loading="lazy"
+          alt="${icon.badgeEncodedTitle} badge">
         </button>
       </div>
 
@@ -135,11 +88,26 @@ export function createListElement(icon) {
 
   const $temp = document.createElement('div');
   $temp.innerHTML = listItemHtml.trim();
-  const $listItem = $temp.firstElementChild;
 
-  if (!loadedSprites.has(icon.chunkFile)) {
-    observer.observe($listItem);
+  const $image = $temp.querySelector('.icon-preview');
+
+  if (!cachedImage) {
+    fetch(remoteImageUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.blob();
+    })
+    .then(imageBlob => {
+      const objectUrl = URL.createObjectURL(imageBlob);
+      imageCache.set(remoteImageUrl, objectUrl);
+      $image.src = objectUrl;
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
   }
 
-  return $listItem;
+  return $temp.firstElementChild;
 }
