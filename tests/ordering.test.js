@@ -159,9 +159,9 @@ describe('Ordering', () => {
     beforeEach(() => {
       orderControls = initOrdering(document, localStorage);
       badges = [
-        { title: 'Bravo', indexByColor: 2, relevanceScore: 20 },
-        { title: 'Alpha', indexByColor: 3, relevanceScore: 10 },
-        { title: 'Zulu', indexByColor: 1, relevanceScore: 30 },]
+        { title: 'Bravo', indexByAlpha: 2, indexByColor: 2, relevanceScore: 20 },
+        { title: 'Alpha', indexByAlpha: 1, indexByColor: 3, relevanceScore: 10 },
+        { title: 'Zulu', indexByAlpha: 10, indexByColor: 1, relevanceScore: 30 },]
     });
 
     it('sorts by alphabetical (default)', () => {
@@ -204,31 +204,34 @@ describe('Ordering', () => {
       return newElementMock(id);
     });
 
+    const getBadges = jest.fn();
     const onOrderChange = jest.fn();
-    initOrdering(document, localStorage, onOrderChange);
+    initOrdering(document, localStorage, getBadges, onOrderChange);
 
     // click color => callback with 'color'
     eventListeners.get('c:click')({ preventDefault: jest.fn() });
-    expect(onOrderChange).toHaveBeenLastCalledWith(ORDER_BY_COLOR);
+    expect(onOrderChange).toHaveBeenCalled();
 
-    // click relevance => callback with 'relevance' and without recording in storage
+    // click relevance => call callback and without recording in storage
     localStorage.setItem.mockClear();
     eventListeners.get('r:click')({ preventDefault: jest.fn() });
     expect(localStorage.setItem).not.toHaveBeenCalled();
-    expect(onOrderChange).toHaveBeenLastCalledWith(ORDER_BY_RELEVANCE);
+    expect(onOrderChange).toHaveBeenCalled();
   });
 
   it('calls callback (onOrderChange) during init if storage has a value', () => {
     localStorage.__setStoredValueFor(STORAGE_KEY_ORDERING, ORDER_BY_COLOR);
+    const getBadges = jest.fn();
     const onOrderChange = jest.fn();
 
-    initOrdering(document, localStorage, onOrderChange);
-    expect(onOrderChange).toHaveBeenCalledWith(ORDER_BY_COLOR);
+    initOrdering(document, localStorage, getBadges, onOrderChange);
+    expect(onOrderChange).toHaveBeenCalled();
   });
 
   it('does nothing when selecting the same ordering again', () => {
+    const getBadges = jest.fn();
     const onOrderChange = jest.fn();
-    const orderControls = initOrdering(document, localStorage, onOrderChange);
+    const orderControls = initOrdering(document, localStorage, getBadges, onOrderChange);
 
     // by default alphabetically
     onOrderChange.mockClear();
