@@ -12,69 +12,85 @@ const OUTPUT_FILE_PATH = path.join(OUTPUT_DIR, 'badges-manifest.json');
 const CHUNK_MAX_SIZE_KB = 200;
 const CHUNK_MAX_SIZE_BYTES = CHUNK_MAX_SIZE_KB * 1024;
 
-const icons = Object.values(simpleIcons);
-const sortedHexes = sortByColors(icons.map((icon) => icon.hex));
-
-const processedIcons = prepareIcons(icons);
-const manifestData = {};
-
-let currentChunk = {};
-let currentChunkSize = 0;
-let chunkId = 0;
-
 if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
-for (const [index, processedIcon] of processedIcons.entries()) {
-  try {
-    const svgContent = makeBadge({
-      color: processedIcon.shortHex,
-      message: processedIcon.title,
-      logoBase64: processedIcon.logoBase64Svg,
-      style: 'for-the-badge',
-    });
+const icons = Object.values(simpleIcons);
+const sortedHexes = sortByColors(icons.map((icon) => icon.hex));
 
-    const base64Encoded = Buffer.from(svgContent).toString('base64');
-    const badgeBase64Svg = `data:image/svg+xml;base64,${base64Encoded}`;
-    const dataSize = Buffer.byteLength(JSON.stringify(badgeBase64Svg), 'utf8');
+const processedIcons = prepareIcons(icons);
 
-    if (currentChunkSize + dataSize > CHUNK_MAX_SIZE_BYTES && Object.keys(currentChunk).length > 0) {
-      writeCurrentChunkToFile();
+const { manifestData, chunks } = buildBadges(processedIcons);
+writeBadgesToFile(manifestData, chunks);
+
+function buildBadges (iconsToBuild) {
+  const manifestData = {};
+  const chunks = [];
+
+  let currentChunk = {};
+  let currentChunkSize = 0;
+  let chunkId = 0;
+
+  for (const icon of iconsToBuild.values()) {
+    try {
+      const svgContent = makeBadge({
+        color: icon.shortHex,
+        message: icon.title,
+        logoBase64: icon.logoBase64Svg,
+        style: 'for-the-badge',
+      });
+
+      const base64Encoded = Buffer.from(svgContent).toString('base64');
+      const badgeBase64Svg = `data:image/svg+xml;base64,${base64Encoded}`;
+      const dataSize = Buffer.byteLength(JSON.stringify(badgeBase64Svg), 'utf8');
+
+      if (currentChunkSize + dataSize > CHUNK_MAX_SIZE_BYTES && Object.keys(currentChunk).length > 0) {
+        const chunkFileName = `badges-chunk-${chunkId}.json`;
+        const chunkFilePath = path.join(OUTPUT_DIR, chunkFileName);
+        chunks.push({ path: chunkFilePath, data: currentChunk });
+
+        currentChunk = {};
+        currentChunkSize = 0;
+        chunkId++;
+      }
+
+      currentChunk[icon.slug] = badgeBase64Svg;
+      currentChunkSize += dataSize;
+
+      manifestData[icon.slug] = {
+        ...icon,
+        chunkFile: `badges-chunk-${chunkId}.json`,
+      };
+
+      // Delete heavy and unnecessary data
+      delete manifestData[icon.slug].logoBase64Svg;
+    } catch (e) {
+      console.error(
+        `Error while generating badge ${icon.slug}: ${e.message}`,
+      );
     }
+  }
 
-    currentChunk[processedIcon.slug] = badgeBase64Svg;
-    currentChunkSize += dataSize;
+  // save last chunk
+  if (Object.keys(currentChunk).length > 0) {
+    const chunkFileName = `badges-chunk-${chunkId}.json`;
+    const chunkFilePath = path.join(OUTPUT_DIR, chunkFileName);
+    chunks.push({ path: chunkFilePath, data: currentChunk });
+  }
 
-    manifestData[processedIcon.slug] = {
-      ...processedIcon,
-      chunkFile: `badges-chunk-${chunkId}.json`,
-    };
-
-    // Delete heavy and unnecessary data
-    delete manifestData[processedIcon.slug].logoBase64Svg;
-  } catch (e) {
-    console.error(
-      `Error while generating badge ${processedIcon.slug}: ${e.message}`,
-    );
+  return {
+    manifestData,
+    chunks,
   }
 }
 
-// save last chunk
-if (Object.keys(currentChunk).length > 0) {
-  writeCurrentChunkToFile();
-}
+function writeBadgesToFile (manifestData, chunks) {
+  fs.writeFileSync(OUTPUT_FILE_PATH, JSON.stringify(manifestData, null, 2));
 
-fs.writeFileSync(OUTPUT_FILE_PATH, JSON.stringify(manifestData, null, 2));
-
-function writeCurrentChunkToFile() {
-  const chunkFileName = `badges-chunk-${chunkId}.json`;
-  const chunkFilePath = path.join(OUTPUT_DIR, chunkFileName);
-  fs.writeFileSync(chunkFilePath, JSON.stringify(currentChunk, null, 2));
-
-  currentChunk = {};
-  currentChunkSize = 0;
-  chunkId++;
+  for (const chunk of chunks) {
+    fs.writeFileSync(chunk.path, JSON.stringify(chunk.data, null, 2));
+  }
 }
 
 function prepareIcons(iconList) {
