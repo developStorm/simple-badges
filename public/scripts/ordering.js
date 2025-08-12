@@ -71,9 +71,9 @@ export default function initOrdering(document, storage, getBadges, onOrderChange
     }
 
     activeOrdering = selected;
-    const sortedData = sortBadges(getBadges(), activeOrdering);
 
-    if (typeof onOrderChange === 'function') {
+    if (typeof getBadges === 'function' && typeof onOrderChange === 'function') {
+      const sortedData = sortBadges(getBadges(), activeOrdering);
       onOrderChange(sortedData);
     }
   }
@@ -83,6 +83,10 @@ export default function initOrdering(document, storage, getBadges, onOrderChange
   }
 
   function sortBadges(items, orderType) {
+    if (!items || !items.length) {
+      return [];
+    }
+
     const ordering = orderType || activeOrdering;
     const sorted = [...items];
 
