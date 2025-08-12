@@ -59,7 +59,7 @@ module.exports = (env, argv) => {
             to: path.resolve(OUT_DIR, 'images'),
           },
           {
-            from: "public/data/badges-chunk-*.json",
+            from: "public/data/sprite-badges-chunk-*.svg",
             to: path.resolve(OUT_DIR, 'public/data/[name][ext]'),
           }
         ],

@@ -5,10 +5,11 @@ const simpleIcons = require('simple-icons');
 const getRelativeLuminance = require('get-relative-luminance').default;
 const { normalizeSearchTerm } = require('../public/scripts/utils.js');
 const sortByColors = require('./color-sorting.js');
+const SVGSpriter = require('svg-sprite');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.join(PROJECT_ROOT, 'public', 'data');
-const OUTPUT_FILE_PATH = path.join(OUTPUT_DIR, 'badges-manifest.json');
+const MANIFEST_FILE_PATH = path.join(OUTPUT_DIR, 'badges-manifest.json');
 const CHUNK_MAX_SIZE_KB = 200;
 const CHUNK_MAX_SIZE_BYTES = CHUNK_MAX_SIZE_KB * 1024;
 
@@ -16,15 +17,51 @@ if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
-const icons = Object.values(simpleIcons);
-const sortedHexes = sortByColors(icons.map((icon) => icon.hex));
+main();
 
-const processedIcons = prepareIcons(icons);
+function main() {
+  const icons = Object.values(simpleIcons);
+  const sortedHexes = sortByColors(icons.map((icon) => icon.hex));
+  const processedIcons = prepareIcons(icons, sortedHexes);
+  const badges = createBadges(processedIcons);
+  const { manifestData, chunks } = compileBadgesChunks(processedIcons, badges, CHUNK_MAX_SIZE_BYTES);
 
-const { manifestData, chunks } = buildBadges(processedIcons);
-writeBadgesToFile(manifestData, chunks);
+  fs.writeFileSync(MANIFEST_FILE_PATH, JSON.stringify(manifestData, null, 2));
 
-function buildBadges (iconsToBuild) {
+  for (const { path, data } of chunks) {
+    const sprite = generateSprite(data);
+    fs.writeFileSync(path, sprite);
+  }
+}
+
+function createBadge (icon) {
+  try {
+    const svgContent = makeBadge({
+      color: icon.shortHex,
+      message: icon.title,
+      logoBase64: icon.logoBase64Svg,
+      style: 'for-the-badge',
+    });
+
+    return svgContent;
+  } catch (e) {
+    console.error(
+      `Error while generating badge ${icon.slug}: ${e.message}`,
+    );
+  }
+}
+
+function createBadges (icons) {
+  const badges = {};
+
+  for (const icon of icons) {
+    badges[icon.slug] = createBadge(icon);
+  }
+
+  return badges;
+}
+
+function compileBadgesChunks (icons, badges, chunkSize) {
   const manifestData = {};
   const chunks = [];
 
@@ -32,51 +69,45 @@ function buildBadges (iconsToBuild) {
   let currentChunkSize = 0;
   let chunkId = 0;
 
-  for (const icon of iconsToBuild.values()) {
+  const getFileName = () => `sprite-badges-chunk-${chunkId}.svg`;
+
+  for (const icon of icons) {
     try {
-      const svgContent = makeBadge({
-        color: icon.shortHex,
-        message: icon.title,
-        logoBase64: icon.logoBase64Svg,
-        style: 'for-the-badge',
-      });
+      const chunkFileName = getFileName();
+      const chunkFilePath = path.join(OUTPUT_DIR, chunkFileName);
+      const badgeSvg = badges[icon.slug];
+      const dataSize = Buffer.byteLength(badgeSvg, 'utf8');
 
-      const base64Encoded = Buffer.from(svgContent).toString('base64');
-      const badgeBase64Svg = `data:image/svg+xml;base64,${base64Encoded}`;
-      const dataSize = Buffer.byteLength(JSON.stringify(badgeBase64Svg), 'utf8');
-
-      if (currentChunkSize + dataSize > CHUNK_MAX_SIZE_BYTES && Object.keys(currentChunk).length > 0) {
-        const chunkFileName = `badges-chunk-${chunkId}.json`;
-        const chunkFilePath = path.join(OUTPUT_DIR, chunkFileName);
-        chunks.push({ path: chunkFilePath, data: currentChunk });
+      if (currentChunkSize + dataSize > chunkSize && Object.keys(currentChunk).length > 0) {
+        chunks.push({ path: chunkFilePath, fileName: chunkFileName, data: currentChunk });
 
         currentChunk = {};
         currentChunkSize = 0;
         chunkId++;
       }
 
-      currentChunk[icon.slug] = badgeBase64Svg;
+      currentChunk[icon.slug] = badgeSvg;
       currentChunkSize += dataSize;
 
       manifestData[icon.slug] = {
         ...icon,
-        chunkFile: `badges-chunk-${chunkId}.json`,
+        chunkFile: chunkFileName,
       };
 
       // Delete heavy and unnecessary data
       delete manifestData[icon.slug].logoBase64Svg;
     } catch (e) {
       console.error(
-        `Error while generating badge ${icon.slug}: ${e.message}`,
+        `Error while compiling badges chunk for ${icon.slug}: ${e.message}`,
       );
     }
   }
 
   // save last chunk
   if (Object.keys(currentChunk).length > 0) {
-    const chunkFileName = `badges-chunk-${chunkId}.json`;
+    const chunkFileName = getFileName();
     const chunkFilePath = path.join(OUTPUT_DIR, chunkFileName);
-    chunks.push({ path: chunkFilePath, data: currentChunk });
+    chunks.push({ path: chunkFilePath, fileName: chunkFileName, data: currentChunk });
   }
 
   return {
@@ -85,15 +116,27 @@ function buildBadges (iconsToBuild) {
   }
 }
 
-function writeBadgesToFile (manifestData, chunks) {
-  fs.writeFileSync(OUTPUT_FILE_PATH, JSON.stringify(manifestData, null, 2));
+function generateSprite (badges) {
+  const spriter = new SVGSpriter({
+    mode: {
+      symbol: true
+    }
+  });
 
-  for (const chunk of chunks) {
-    fs.writeFileSync(chunk.path, JSON.stringify(chunk.data, null, 2));
+  for (const [slug, svg] of Object.entries(badges)) {
+    spriter.add(`${slug}`, null, svg);
   }
+
+  let sprite;
+
+  spriter.compile((error, result) => {
+    sprite = result.symbol.sprite.contents;
+  });
+
+  return sprite;
 }
 
-function prepareIcons(iconList) {
+function prepareIcons(iconList, sortedHexes) {
   return iconList.map((icon, iconIndex) => {
     const luminance = getRelativeLuminance(`#${icon.hex}`);
     const iconColor = luminance > 0.55 ? '000' : 'fff';

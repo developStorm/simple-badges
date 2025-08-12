@@ -53,6 +53,7 @@
     "puppeteer": "13.4.1",
     "serve": "14.2.3",
     "simple-icons": "15.9.0",
+    "svg-sprite": "2.0.4",
     "webpack": "5.70.0",
     "webpack-cli": "4.9.2"
   },

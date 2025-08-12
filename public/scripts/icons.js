@@ -1,56 +1,56 @@
 import EllipseLoader from '/public/images/Ellipsis@1x-1.0s-200px-200px.svg';
+import { loadSvgSprite } from './sprites.js';
 
 const intersectingElements = new Set();
-const loadedChunks = {};
-const fetchingPromises = {};
+const fetchingPromises = new Map();
+const loadedSprites = new Set();
 
 const observer = new IntersectionObserver((entries, observer) => {
-  entries.forEach(async (entry) => {
-    const $listItem = entry.target;
+  entries.forEach(async ({ target: $listItem, isIntersecting }) => {
+    const $image = $listItem.querySelector('.icon-preview');
+    const $previewContainer = $listItem.querySelector('.grid-item__preview');
+    const slug = $listItem.dataset.slug;
+    const chunkFile = $image.dataset.chunk;
 
-    if (!entry.isIntersecting) {
+    if (!isIntersecting) {
       intersectingElements.delete($listItem);
       return;
     }
 
-    intersectingElements.add($listItem);
-    const $image = $listItem.querySelector('.icon-preview');
-    const chunkFile = $image.dataset.chunk;
-    const isBadgeImage = $image.dataset.isBadge;
-
-    if (isBadgeImage === 'true' || !chunkFile) {
+    if (loadedSprites.has(chunkFile)) {
+      $previewContainer.innerHTML = '';
+      renderIcon($previewContainer, slug);
+      observer.unobserve($listItem);
       return;
     }
 
-    let chunkData = loadedChunks[chunkFile];
+    intersectingElements.add($listItem);
 
-    if (!chunkData) {
-      if (!fetchingPromises[chunkFile]) {
-        fetchingPromises[chunkFile] = fetch(`/public/data/${chunkFile}`)
-        .then(res => res.json())
+    if (fetchingPromises.has(chunkFile)) {
+      fetchingPromises.get(chunkFile).then(() => {
+        if (intersectingElements.has($listItem)) {
+          $previewContainer.innerHTML = '';
+          renderIcon($previewContainer, slug);
+        }
+        observer.unobserve($listItem);
+      });
+
+      return;
+    }
+
+    fetchingPromises.set(
+      chunkFile,
+      loadSvgSprite(`/public/data/${chunkFile}`)
         .then(data => {
-          loadedChunks[chunkFile] = data;
-          return data;
-        });
-      }
-
-      chunkData = await fetchingPromises[chunkFile];
-    }
-
-    if (intersectingElements.has($listItem)) {
-      $image.src = chunkData[$listItem.dataset.slug];
-      $image.dataset.isBadgeImage = 'true';
-      observer.unobserve($listItem);
-    }
+          loadedSprites.add(chunkFile);
+          $previewContainer.innerHTML = '';
+          renderIcon($previewContainer, slug);
+      }),
+    )
   });
 }, { rootMargin: '0px 0px 100px 0px' });
 
 export function createListElement(icon) {
-  let badge;
-  if (loadedChunks[icon.chunkFile]) {
-    badge = loadedChunks[icon.chunkFile][icon.slug];
-  }
-
   const guidelinesHtml = icon.guidelines
     ? `
     <a class="grid-item__link link-button"
@@ -75,6 +75,19 @@ export function createListElement(icon) {
   `
     : '';
 
+  const iconPreview = loadedSprites.has(icon.chunkFile)
+    ? `
+    <svg class="icon-preview" height="28"><use href="#${icon.slug}"></use></svg>
+    `
+    : `
+    <img class="icon-preview"
+      src="${EllipseLoader}"
+      data-chunk="${icon.chunkFile}"
+      loading="lazy"
+      alt="${icon.title} badge"
+      style="height: 28px;">
+    `;
+
   const listItemHtml = `
     <div class="grid-item"
       style="--order-color: ${icon.indexByColor};"
@@ -90,13 +103,7 @@ export function createListElement(icon) {
           title="${ icon.title } SVG"
           data-style="for-the-badge"
         >
-          <img class="icon-preview"
-            src="${badge || EllipseLoader}"
-            data-chunk="${icon.chunkFile}"
-            data-is-badge="false"
-            loading="lazy"
-            alt="${icon.title} badge"
-            style="height: 28px;">
+         ${iconPreview}
         </button>
       </div>
 
@@ -130,7 +137,9 @@ export function createListElement(icon) {
   $temp.innerHTML = listItemHtml.trim();
   const $listItem = $temp.firstElementChild;
 
-  observer.observe($listItem);
+  if (!loadedSprites.has(icon.chunkFile)) {
+    observer.observe($listItem);
+  }
 
   return $listItem;
 }
