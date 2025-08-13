@@ -14,14 +14,17 @@ export default function initVirtualWindow(window, document, getBadges) {
   const itemsRows = groupIntoRows(getBadges(), columnsCount);
   const scroller = initScroller($container, itemsRows);
 
-  window.addEventListener('resize', () => {
+  function updateColumnsCount() {
     const newColumnsCount = getColumnsCount($container);
 
     if (newColumnsCount !== columnsCount) {
       scroller.setItems(groupIntoRows(getBadges(), newColumnsCount));
       columnsCount = newColumnsCount;
     }
-  });
+  }
+
+  document.addEventListener('DOMContentLoaded', updateColumnsCount);
+  window.addEventListener('resize', updateColumnsCount);
 
   return {
     scroller,
