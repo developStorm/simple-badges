@@ -9,6 +9,7 @@ export const document = {
   },
   querySelector: jest.fn().mockName('document.querySelector'),
   querySelectorAll: jest.fn().mockName('document.querySelectorAll'),
+  addEventListener: jest.fn().mockName('document.addEventListener'),
 
   // Common elements
   $body: newElementMock('body'),
@@ -31,6 +32,8 @@ export const document = {
     });
     this.querySelectorAll.mockReset();
     this.querySelectorAll.mockReturnValue([]);
+    this.addEventListener.mockReset();
+    this.addEventListener.mockImplementation();
     this.$body = newElementMock('body');
   },
 };
