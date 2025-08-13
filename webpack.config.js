@@ -101,6 +101,7 @@ module.exports = (env, argv) => {
         inject: true,
         template: path.resolve(ROOT_DIR, 'index.pug'),
         templateParameters: {
+          icons: iconsData,
           iconCount: icons.length,
           twitterIcon: icons.find((icon) => icon.title === 'X'),
           pageTitle: 'Simple Badges',

@@ -35,7 +35,7 @@ export default function initVirtualWindow(window, document, getBadges) {
 function initScroller($container, items) {
   function renderItem(row) {
     const $rowElement = document.createElement('div');
-    $rowElement.className = 'grid-row';
+    $rowElement.className = 'grid';
 
     row.forEach((item) => {
       const $listElement = createListElement(item);

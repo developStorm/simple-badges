@@ -67,6 +67,9 @@
   --lm-color-link: rgb(0, 0, 238);
   --lm-color-link-hover: rgb(52, 52, 238);
   --lm-color-link-visited: rgb(85, 26, 139);
+
+  --grid-width: 13.5rem;
+  --grid-gap: 0.75rem;
 }
 @media (max-width: 1280px) {
   :root {
@@ -300,7 +303,8 @@ a {
     box-shadow: none;
     justify-content: flex-end;
     margin-bottom: 0.5rem;
-    position: relative;
+    top: -1rem;
+    /*position: relative;*/
   }
 }
 
@@ -476,15 +480,16 @@ body.order-by-relevance #order-relevance {
 /* Grid */
 
 .grid-rows-container {
-  --grid-width: 13.5rem;
-  --grid-gap: 0.75rem;
-
-  .grid-row {
-    display: grid;
-    gap: var(--grid-gap);
-    grid-template-columns: repeat(auto-fill, minmax(var(--grid-width), 1fr));
+  .grid {
     margin: 0 0 var(--grid-gap);
   }
+}
+
+.grid {
+  display: grid;
+  gap: var(--grid-gap);
+  grid-template-columns: repeat(auto-fill, minmax(var(--grid-width), 1fr));
+  margin: 0 0 1.5rem;
 }
 
 .grid-item--if-empty {
@@ -762,6 +767,10 @@ body.order-by-relevance #order-relevance {
   height: 0;
   width: 0;
 }
+
+/*body.no-js #loader {*/
+/*  display: none;*/
+/*}*/
 
 #loader {
   display: flex;
