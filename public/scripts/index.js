@@ -26,7 +26,7 @@ const { scroller, virtualWindowContainer } = initVirtualWindow(
   document,
   () => currentBadges,
 );
-const orderingControls = initOrdering(document, storage, () => currentBadges,(sortedData) => {
+const orderingControls = initOrdering(document, storage, () => currentBadges, (sortedData) => {
   const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
   currentBadges = sortedData;
   scroller.setItems(groupIntoRows(sortedData, columnsCount));
