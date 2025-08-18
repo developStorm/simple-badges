@@ -1,10 +1,11 @@
 name: Analysis
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 0 1 * *'
   push:
     paths:
-      - /.github/workflows/analysis.yml
+      - .github/workflows/analysis.yml
 
 jobs:
   codeql:
