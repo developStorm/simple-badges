@@ -12,7 +12,7 @@ export const domUtils = {
     this.showElement.mockReset();
     this.toggleClass.mockReset();
     this.addClass.mockReset();
-    this.removeClass.mockReset()
+    this.removeClass.mockReset();
     this.getColumnsCount.mockReset();
   },
 };
