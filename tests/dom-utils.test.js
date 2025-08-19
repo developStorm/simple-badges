@@ -109,7 +109,9 @@ describe('getColumnsCount', () => {
 
     const defaultMinWidth = 13.5 * defaultFontSize;
     const defaultGap = 0.75 * defaultFontSize;
-    const defaultCols = Math.floor((container.clientWidth + defaultGap) / (defaultMinWidth + defaultGap));
+    const defaultCols = Math.floor(
+      (container.clientWidth + defaultGap) / (defaultMinWidth + defaultGap),
+    );
 
     expect(cols).toBe(defaultCols);
   });
@@ -120,7 +122,9 @@ describe('getColumnsCount', () => {
     const gapRem = 1;
     const minWidthPx = widthRem * defaultFontSize;
     const gapPx = gapRem * defaultFontSize;
-    const expectedCols = Math.floor((container.clientWidth + gapPx) / (minWidthPx + gapPx));
+    const expectedCols = Math.floor(
+      (container.clientWidth + gapPx) / (minWidthPx + gapPx),
+    );
 
     mockContainerStyles(widthRem, gapRem);
     const cols = getColumnsCount(container);

@@ -12,7 +12,8 @@ jest.mock('../public/scripts/icons.js', () => ({
 }));
 
 const VirtualScroller = require('virtual-scroller/dom');
-const initVirtualWindow = require('../public/scripts/virtual-window.js').default;
+const initVirtualWindow =
+  require('../public/scripts/virtual-window.js').default;
 
 describe('virtual-window', () => {
   let getBadges;
@@ -40,7 +41,11 @@ describe('virtual-window', () => {
     const container = { id: 'virtual-list', clientWidth: 800 };
     document.getElementById.mockReturnValue(container);
 
-    const { virtualWindowContainer } = initVirtualWindow(window, document, getBadges);
+    const { virtualWindowContainer } = initVirtualWindow(
+      window,
+      document,
+      getBadges,
+    );
     expect(VirtualScroller).toHaveBeenCalled();
     expect(virtualWindowContainer).toBe(container);
   });
@@ -52,7 +57,9 @@ describe('virtual-window', () => {
     const { scroller } = initVirtualWindow(window, document, getBadges);
     jest.spyOn(scroller, 'setItems');
 
-    const listener = window.addEventListener.mock.calls.find(c=>c[0]==='resize')[1];
+    const listener = window.addEventListener.mock.calls.find(
+      (c) => c[0] === 'resize',
+    )[1];
 
     // without changing the column count
     domUtils.getColumnsCount.mockReturnValue(2);

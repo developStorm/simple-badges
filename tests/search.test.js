@@ -248,7 +248,10 @@ describe('Search', () => {
 
       const [results, normalizedQuery] = onSearch.mock.calls.pop();
       expect(normalizedQuery).toBe('');
-      expect(results.map(r => r.normalizedName)).toEqual(['google', 'github']);
+      expect(results.map((r) => r.normalizedName)).toEqual([
+        'google',
+        'github',
+      ]);
     });
 
     it('filters badges by score', () => {

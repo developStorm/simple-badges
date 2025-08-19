@@ -76,7 +76,10 @@ export default function initOrdering(
 
     activeOrdering = selected;
 
-    if (typeof getBadges === 'function' && typeof onOrderChange === 'function') {
+    if (
+      typeof getBadges === 'function' &&
+      typeof onOrderChange === 'function'
+    ) {
       const sortedData = sortBadges(getBadges(), activeOrdering);
       onOrderChange(sortedData);
     }

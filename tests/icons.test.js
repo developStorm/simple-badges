@@ -9,10 +9,12 @@ describe('Icons', () => {
   const originalCreateObjectURL = global.URL.createObjectURL;
 
   beforeAll(() => {
-    global.fetch = jest.fn(() => Promise.resolve({
-      ok: true,
-      blob: () => Promise.resolve(new Blob(['<svg></svg>'])),
-    }));
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        blob: () => Promise.resolve(new Blob(['<svg></svg>'])),
+      }),
+    );
     global.URL.createObjectURL = jest.fn(() => 'mock-object-url');
   });
 
@@ -96,10 +98,12 @@ describe('Icons', () => {
       resolveFetchPromise = resolve;
     });
 
-    global.fetch = jest.fn(() => Promise.resolve({
-      ok: true,
-      blob: () => fetchPromise,
-    }));
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        blob: () => fetchPromise,
+      }),
+    );
 
     jest.spyOn(imageCache, 'get').mockReturnValueOnce(null);
     jest.spyOn(imageCache, 'set');
@@ -110,12 +114,15 @@ describe('Icons', () => {
     await fetchPromise;
     await new Promise((r) => setTimeout(r, 0));
 
-    const expectedUrl = 'https://img.shields.io/badge/New-Icon-abcdef?logo=new-icon&logoColor=000&style=for-the-badge';
+    const expectedUrl =
+      'https://img.shields.io/badge/New-Icon-abcdef?logo=new-icon&logoColor=000&style=for-the-badge';
 
     expect(imageCache.get).toHaveBeenCalledWith(expectedUrl);
     expect(global.fetch).toHaveBeenCalledWith(expectedUrl);
     expect(imageCache.set).toHaveBeenCalledWith(expectedUrl, 'mock-object-url');
-    expect(element.querySelector('.icon-preview').getAttribute('src')).toBe('mock-object-url');
+    expect(element.querySelector('.icon-preview').getAttribute('src')).toBe(
+      'mock-object-url',
+    );
   });
 
   it('should handle missing guidelines and license gracefully', () => {

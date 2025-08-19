@@ -4,7 +4,10 @@ export const imageCache = new Map();
 
 export function createListElement(icon) {
   const baseUrl = 'https://img.shields.io/badge/';
-  const badgeUrl = new URL(`${icon.badgeEncodedTitle}-${icon.shortHex}`, baseUrl);
+  const badgeUrl = new URL(
+    `${icon.badgeEncodedTitle}-${icon.shortHex}`,
+    baseUrl,
+  );
   badgeUrl.searchParams.set('logo', icon.slug);
   badgeUrl.searchParams.set('logoColor', icon.superLight ? '000' : 'fff');
   badgeUrl.searchParams.set('style', 'for-the-badge');

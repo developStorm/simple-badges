@@ -45,7 +45,9 @@ export function getColumnsCount($container) {
   const gapPx = gapRem * rootFontSize;
 
   const containerWidth = $container.clientWidth;
-  const count = Math.floor((containerWidth + gapPx) / (minColumnWidthPx + gapPx));
+  const count = Math.floor(
+    (containerWidth + gapPx) / (minColumnWidthPx + gapPx),
+  );
 
   return Math.max(1, count);
 }
