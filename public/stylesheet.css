@@ -303,7 +303,7 @@ a {
     box-shadow: none;
     justify-content: flex-end;
     margin-bottom: 0.5rem;
-    top: -1rem;
+    position: relative;
   }
 }
 
