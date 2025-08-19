@@ -77,5 +77,5 @@ export const window = {
   __resetAllMocks: function () {
     this.addEventListener.mockReset();
     this.addEventListener.mockImplementation();
-  }
+  },
 };

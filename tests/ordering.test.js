@@ -7,7 +7,11 @@ const { localStorage } = require('./mocks/local-storage.mock.js');
 
 const initOrdering = require('../public/scripts/ordering.js').default;
 const { STORAGE_KEY_ORDERING } = require('../public/scripts/storage.js');
-const { ORDER_ALPHABETICALLY, ORDER_BY_COLOR, ORDER_BY_RELEVANCE } = require('../public/scripts/ordering')
+const {
+  ORDER_ALPHABETICALLY,
+  ORDER_BY_COLOR,
+  ORDER_BY_RELEVANCE,
+} = require('../public/scripts/ordering');
 
 describe('Ordering', () => {
   beforeEach(() => {
@@ -159,32 +163,48 @@ describe('Ordering', () => {
     beforeEach(() => {
       orderControls = initOrdering(document, localStorage);
       badges = [
-        { title: 'Bravo', indexByAlpha: 2, indexByColor: 2, relevanceScore: 20 },
-        { title: 'Alpha', indexByAlpha: 1, indexByColor: 3, relevanceScore: 10 },
-        { title: 'Zulu', indexByAlpha: 10, indexByColor: 1, relevanceScore: 30 },]
+        {
+          title: 'Bravo',
+          indexByAlpha: 2,
+          indexByColor: 2,
+          relevanceScore: 20,
+        },
+        {
+          title: 'Alpha',
+          indexByAlpha: 1,
+          indexByColor: 3,
+          relevanceScore: 10,
+        },
+        {
+          title: 'Zulu',
+          indexByAlpha: 10,
+          indexByColor: 1,
+          relevanceScore: 30,
+        },
+      ];
     });
 
     it('sorts by alphabetical (default)', () => {
       const byAlpha = orderControls.sortBadges(badges);
-      expect(byAlpha.map(i => i.title)).toEqual(['Alpha', 'Bravo', 'Zulu']);
+      expect(byAlpha.map((i) => i.title)).toEqual(['Alpha', 'Bravo', 'Zulu']);
     });
 
     it('sorts by color', () => {
       const byColor = orderControls.sortBadges(badges, ORDER_BY_COLOR);
-      expect(byColor.map(i => i.indexByColor)).toEqual([1, 2, 3]);
+      expect(byColor.map((i) => i.indexByColor)).toEqual([1, 2, 3]);
     });
 
     it('sorts by relevance', () => {
       const byRelevance = orderControls.sortBadges(badges, ORDER_BY_RELEVANCE);
-      expect(byRelevance.map(i => i.relevanceScore)).toEqual([10, 20, 30]);
+      expect(byRelevance.map((i) => i.relevanceScore)).toEqual([10, 20, 30]);
     });
 
     it('does not mutate the original array', () => {
       orderControls.sortBadges(badges);
       orderControls.sortBadges(badges, ORDER_BY_COLOR);
       orderControls.sortBadges(badges, ORDER_BY_RELEVANCE);
-      expect(badges.map(i => i.title)).toEqual(['Bravo', 'Alpha', 'Zulu']);
-    })
+      expect(badges.map((i) => i.title)).toEqual(['Bravo', 'Alpha', 'Zulu']);
+    });
   });
 
   it('calls callback (onOrderChange) on user selection', () => {
@@ -193,9 +213,15 @@ describe('Ordering', () => {
     const $color = newElementMock('#order-color');
     const $relevance = newElementMock('#order-relevance');
 
-    $alpha.addEventListener.mockImplementation((n, fn) => eventListeners.set(`a:${n}`, fn));
-    $color.addEventListener.mockImplementation((n, fn) => eventListeners.set(`c:${n}`, fn));
-    $relevance.addEventListener.mockImplementation((n, fn) => eventListeners.set(`r:${n}`, fn));
+    $alpha.addEventListener.mockImplementation((n, fn) =>
+      eventListeners.set(`a:${n}`, fn),
+    );
+    $color.addEventListener.mockImplementation((n, fn) =>
+      eventListeners.set(`c:${n}`, fn),
+    );
+    $relevance.addEventListener.mockImplementation((n, fn) =>
+      eventListeners.set(`r:${n}`, fn),
+    );
 
     document.getElementById.mockImplementation((id) => {
       if (id === 'order-alpha') return $alpha;
@@ -231,7 +257,12 @@ describe('Ordering', () => {
   it('does nothing when selecting the same ordering again', () => {
     const getBadges = jest.fn();
     const onOrderChange = jest.fn();
-    const orderControls = initOrdering(document, localStorage, getBadges, onOrderChange);
+    const orderControls = initOrdering(
+      document,
+      localStorage,
+      getBadges,
+      onOrderChange,
+    );
 
     // by default alphabetically
     onOrderChange.mockClear();

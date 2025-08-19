@@ -203,8 +203,10 @@ describe('Search', () => {
       expect(onSearch).toHaveBeenCalled();
       const [results, normalizedQuery] = onSearch.mock.calls.pop();
       expect(normalizedQuery).toBe('git');
-      expect(results.every(r => typeof r.relevanceScore === 'number')).toBe(true);
-    })
+      expect(results.every((r) => typeof r.relevanceScore === 'number')).toBe(
+        true,
+      );
+    });
   });
 
   describe('Badge Searching Logic', () => {
@@ -267,8 +269,8 @@ describe('Search', () => {
       jest.runAllTimers();
 
       const [results] = onSearch.mock.calls.pop();
-      expect(results.map(r => r.title)).toEqual(['A']);
-    })
+      expect(results.map((r) => r.title)).toEqual(['A']);
+    });
   });
 
   describe('URL query', () => {

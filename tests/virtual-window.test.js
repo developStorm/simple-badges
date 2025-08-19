@@ -1,15 +1,15 @@
-import {
-  window,
-  document,
-} from './mocks/dom.mock.js';
+import { window, document } from './mocks/dom.mock.js';
 const utils = require('../public/scripts/utils.js');
 const domUtils = require('../public/scripts/dom-utils.js');
 
 jest.mock('virtual-scroller/dom', () => {
   return jest.fn().mockImplementation(() => ({ setItems: jest.fn() }));
 });
-jest.mock('../public/scripts/icons.js', () => ({ createListElement: jest.fn(() => ({ /* node */ })) }));
-
+jest.mock('../public/scripts/icons.js', () => ({
+  createListElement: jest.fn(() => ({
+    /* node */
+  })),
+}));
 
 const VirtualScroller = require('virtual-scroller/dom');
 const initVirtualWindow = require('../public/scripts/virtual-window.js').default;
@@ -45,7 +45,7 @@ describe('virtual-window', () => {
     expect(virtualWindowContainer).toBe(container);
   });
 
-  it ('wires resize regrouping', () => {
+  it('wires resize regrouping', () => {
     const container = { id: 'virtual-list', clientWidth: 800 };
     document.getElementById.mockReturnValue(container);
 

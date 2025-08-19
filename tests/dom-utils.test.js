@@ -97,9 +97,9 @@ describe('getColumnsCount', () => {
           if (name === '--grid-width') return String(widthRem);
           if (name === '--grid-gap') return String(gapRem);
           return '';
-        }
-      }
-    })
+        },
+      };
+    });
   }
 
   it('calculates with defaults when CSS variables are missing', () => {
@@ -142,4 +142,4 @@ describe('getColumnsCount', () => {
     const container = { clientWidth: -10 };
     expect(getColumnsCount(container)).toBe(1);
   });
-})
+});

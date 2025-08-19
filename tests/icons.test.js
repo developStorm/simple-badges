@@ -4,7 +4,6 @@
 
 import { createListElement, imageCache } from '../public/scripts/icons.js';
 
-
 describe('Icons', () => {
   const originalFetch = global.fetch;
   const originalCreateObjectURL = global.URL.createObjectURL;
@@ -35,20 +34,24 @@ describe('Icons', () => {
       indexByColor: '1',
       indexByAlpha: 1,
       normalizedName: 'test-icon',
-    }
+    };
 
     const element = createListElement(icon);
 
-    expect(element).toBeInstanceOf(HTMLElement)
-    expect(element.getAttribute('data-brand')).toBe('test-icon')
-    expect(element.querySelector('.grid-item__title').textContent).
-      toBe(icon.title)
-    expect(element.querySelector('.icon-preview').src).
-      toBe('http://localhost/test-file-stub')
-    expect(element.querySelector('.grid-item__link.link-button').href).
-      toBe(icon.guidelines)
-    expect(element.querySelector('.grid-item__link.icon-legal').href).
-      toBe(icon.license.url)
+    expect(element).toBeInstanceOf(HTMLElement);
+    expect(element.getAttribute('data-brand')).toBe('test-icon');
+    expect(element.querySelector('.grid-item__title').textContent).toBe(
+      icon.title,
+    );
+    expect(element.querySelector('.icon-preview').src).toBe(
+      'http://localhost/test-file-stub',
+    );
+    expect(element.querySelector('.grid-item__link.link-button').href).toBe(
+      icon.guidelines,
+    );
+    expect(element.querySelector('.grid-item__link.icon-legal').href).toBe(
+      icon.license.url,
+    );
   });
 
   it('should use cached image if it exists', () => {
@@ -62,7 +65,7 @@ describe('Icons', () => {
       license: null,
       indexByColor: '2',
       normalizedName: 'cached-icon',
-    }
+    };
     const cachedUrl = 'https://cached-image-url.test/';
 
     jest.spyOn(imageCache, 'get').mockReturnValueOnce(cachedUrl);
@@ -89,7 +92,7 @@ describe('Icons', () => {
     };
 
     let resolveFetchPromise;
-    const fetchPromise = new Promise(resolve => {
+    const fetchPromise = new Promise((resolve) => {
       resolveFetchPromise = resolve;
     });
 
@@ -105,7 +108,7 @@ describe('Icons', () => {
     resolveFetchPromise(new Blob());
 
     await fetchPromise;
-    await new Promise(r => setTimeout(r, 0));
+    await new Promise((r) => setTimeout(r, 0));
 
     const expectedUrl = 'https://img.shields.io/badge/New-Icon-abcdef?logo=new-icon&logoColor=000&style=for-the-badge';
 
@@ -126,11 +129,11 @@ describe('Icons', () => {
       license: null,
       indexByColor: '4',
       normalizedName: 'minimal-icon',
-    }
+    };
 
-    const element = createListElement(icon)
+    const element = createListElement(icon);
 
-    expect(element.querySelector('.grid-item__link.link-button')).toBeNull()
-    expect(element.querySelector('.grid-item__link.icon-legal')).toBeNull()
-  })
-})
+    expect(element.querySelector('.grid-item__link.link-button')).toBeNull();
+    expect(element.querySelector('.grid-item__link.icon-legal')).toBeNull();
+  });
+});

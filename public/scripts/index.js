@@ -10,7 +10,9 @@ import initColorScheme from './color-scheme.js';
 import initOrdering from './ordering.js';
 import initSearch from './search.js';
 
-console.log('Build #DEVELOPMENT_BUILD#');
+if (process.env.NODE_ENV === 'development') {
+  console.log('Build #DEVELOPMENT_BUILD#');
+}
 document.body.classList.remove('no-js');
 
 const $loader = document.getElementById('loader');
@@ -26,11 +28,16 @@ const { scroller, virtualWindowContainer } = initVirtualWindow(
   document,
   () => currentBadges,
 );
-const orderingControls = initOrdering(document, storage, () => currentBadges, (sortedData) => {
-  const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
-  currentBadges = sortedData;
-  scroller.setItems(groupIntoRows(sortedData, columnsCount));
-});
+const orderingControls = initOrdering(
+  document,
+  storage,
+  () => currentBadges,
+  (sortedData) => {
+    const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
+    currentBadges = sortedData;
+    scroller.setItems(groupIntoRows(sortedData, columnsCount));
+  },
+);
 initSearch(
   window.history,
   document,

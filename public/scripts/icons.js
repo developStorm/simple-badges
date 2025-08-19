@@ -1,4 +1,4 @@
-import EllipseLoader from '/public/images/Ellipsis@1x-1.0s-200px-200px.svg';
+import EllipseLoader from '../images/Ellipsis@1x-1.0s-200px-200px.svg';
 
 export const imageCache = new Map();
 
@@ -49,7 +49,7 @@ export function createListElement(icon) {
       
       <div class="grid-item__row mv-2 fg-2">
         <button class="grid-item__preview copy-button copy-svg" 
-          title="${ icon.title } SVG"
+          title="${icon.title} SVG"
           data-style="for-the-badge"
         >
         <img class="icon-preview"
@@ -93,20 +93,20 @@ export function createListElement(icon) {
 
   if (!cachedImage) {
     fetch(remoteImageUrl)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.blob();
-    })
-    .then(imageBlob => {
-      const objectUrl = URL.createObjectURL(imageBlob);
-      imageCache.set(remoteImageUrl, objectUrl);
-      $image.src = objectUrl;
-    })
-    .catch(error => {
-      console.error('There was a problem with the fetch operation:', error);
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then((imageBlob) => {
+        const objectUrl = URL.createObjectURL(imageBlob);
+        imageCache.set(remoteImageUrl, objectUrl);
+        $image.src = objectUrl;
+      })
+      .catch((error) => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
   }
 
   return $temp.firstElementChild;

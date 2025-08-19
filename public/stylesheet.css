@@ -767,9 +767,6 @@ body.order-by-relevance #order-relevance {
   width: 0;
 }
 
-/*body.no-js #loader {*/
-/*  display: none;*/
-
 #loader {
   display: flex;
 

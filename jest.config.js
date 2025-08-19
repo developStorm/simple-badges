@@ -26,8 +26,8 @@ module.exports = {
     ...getIgnorePattern(process.env.TEST_ENV),
   ],
   moduleNameMapper: {
-    '\\.(svg|png|jpg|gif|css)$': '<rootDir>/tests/mocks/image-import.mock.js'
-  }
+    '\\.(svg|png|jpg|gif|css)$': '<rootDir>/tests/mocks/image-import.mock.js',
+  },
 };
 
 function buildWebsite(env) {
