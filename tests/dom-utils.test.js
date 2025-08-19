@@ -5,7 +5,6 @@
 const {
   hideElement,
   showElement,
-  toggleClass,
   addClass,
   removeClass,
   getColumnsCount,
@@ -16,8 +15,6 @@ const $el = {
     add: jest.fn().mockName('$el.classList.add'),
     remove: jest.fn().mockName('$el.classList.remove'),
     toggle: jest.fn().mockName('$el.classList.toggle'),
-    add: jest.fn().mockName('$el.classList.add'),
-    remove: jest.fn().mockName('$el.classList.remove'),
   },
   removeAttribute: jest.fn().mockName('$el.removeAttribute'),
   setAttribute: jest.fn().mockName('$el.setAttribute'),

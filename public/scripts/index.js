@@ -44,7 +44,7 @@ initSearch(
   orderingControls,
   domUtils,
   ICONS_DATA,
-  (results, query) => {
+  (results) => {
     const columnsCount = domUtils.getColumnsCount(virtualWindowContainer);
     const sortedData = orderingControls.sortBadges(results);
     currentBadges = sortedData;
