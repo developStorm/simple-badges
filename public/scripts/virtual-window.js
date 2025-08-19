@@ -23,7 +23,11 @@ export default function initVirtualWindow(window, document, getBadges) {
     }
   }
 
-  document.addEventListener('DOMContentLoaded', updateColumnsCount);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateColumnsCount);
+  } else {
+    updateColumnsCount();
+  }
   window.addEventListener('resize', updateColumnsCount);
 
   return {
