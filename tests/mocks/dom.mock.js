@@ -2,12 +2,14 @@ const PATHNAME = 'https://www.simpleicons.org';
 
 export const document = {
   getElementById: jest.fn().mockName('document.getElementById'),
+  createElement: jest.fn().mockName('document.createElement'),
   location: {
     pathname: PATHNAME,
     search: '',
   },
   querySelector: jest.fn().mockName('document.querySelector'),
   querySelectorAll: jest.fn().mockName('document.querySelectorAll'),
+  addEventListener: jest.fn().mockName('document.addEventListener'),
 
   // Common elements
   $body: newElementMock('body'),
@@ -16,6 +18,8 @@ export const document = {
   __resetAllMocks: function () {
     this.getElementById.mockReset();
     this.getElementById.mockImplementation(newElementMock);
+    this.createElement.mockReset();
+    this.createElement.mockImplementation(newElementMock);
     this.location.pathname = PATHNAME;
     this.location.search = '';
     this.querySelector.mockReset();
@@ -28,6 +32,8 @@ export const document = {
     });
     this.querySelectorAll.mockReset();
     this.querySelectorAll.mockReturnValue([]);
+    this.addEventListener.mockReset();
+    this.addEventListener.mockImplementation();
     this.$body = newElementMock('body');
   },
 };
@@ -66,4 +72,10 @@ export function newEventMock() {
 
 export const window = {
   atob: (base64Str) => Buffer.from(base64Str, 'base64').toString('utf8'),
+  addEventListener: jest.fn().mockName('window.addEventListener'),
+
+  __resetAllMocks: function () {
+    this.addEventListener.mockReset();
+    this.addEventListener.mockImplementation();
+  },
 };

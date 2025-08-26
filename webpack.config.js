@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const simpleIcons = require('simple-icons');
+const webpack = require('webpack');
 
 const { normalizeSearchTerm } = require('./public/scripts/utils.js');
 const sortByColors = require('./scripts/color-sorting.js');
@@ -31,6 +32,28 @@ if (process.env.TEST_ENV) {
   // failed tests due to timeouts.
   displayIcons = icons.slice(0, 255);
 }
+
+const iconsData = displayIcons.map((icon, iconIndex) => {
+  const luminance = getRelativeLuminance(`#${icon.hex}`);
+  return {
+    guidelines: icon.guidelines,
+    hex: icon.hex,
+    indexByAlpha: iconIndex,
+    indexByColor: sortedHexes.indexOf(icon.hex),
+    license: icon.license,
+    light: luminance < 0.4,
+    superLight: luminance > 0.55,
+    superDark: luminance < 0.02,
+    normalizedName: normalizeSearchTerm(icon.title),
+    path: icon.path,
+    shortHex: simplifyHexIfPossible(icon.hex),
+    slug: icon.slug,
+    title: icon.title,
+    badgeEncodedTitle: encodeURIComponent(
+      icon.title.replaceAll('-', '--').replaceAll('_', '__'),
+    ),
+  };
+});
 
 module.exports = (env, argv) => {
   return {
@@ -77,28 +100,7 @@ module.exports = (env, argv) => {
         inject: true,
         template: path.resolve(ROOT_DIR, 'index.pug'),
         templateParameters: {
-          icons: displayIcons.map((icon, iconIndex) => {
-            const luminance = getRelativeLuminance(`#${icon.hex}`);
-            return {
-              base64Svg: Buffer.from(icon.svg).toString('base64'),
-              guidelines: icon.guidelines,
-              hex: icon.hex,
-              indexByAlpha: iconIndex,
-              indexByColor: sortedHexes.indexOf(icon.hex),
-              license: icon.license,
-              light: luminance < 0.4,
-              superLight: luminance > 0.55,
-              superDark: luminance < 0.02,
-              normalizedName: normalizeSearchTerm(icon.title),
-              path: icon.path,
-              shortHex: simplifyHexIfPossible(icon.hex),
-              slug: icon.slug,
-              title: icon.title,
-              badgeEncodedTitle: encodeURIComponent(
-                icon.title.replaceAll('-', '--').replaceAll('_', '__'),
-              ),
-            };
-          }),
+          icons: iconsData,
           iconCount: icons.length,
           twitterIcon: icons.find((icon) => icon.title === 'X'),
           pageTitle: 'Simple Badges',
@@ -107,6 +109,9 @@ module.exports = (env, argv) => {
         },
       }),
       new MiniCssExtractPlugin(),
+      new webpack.DefinePlugin({
+        ICONS_DATA: JSON.stringify(iconsData),
+      }),
     ],
     optimization: {
       minimizer:

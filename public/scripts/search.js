@@ -42,7 +42,14 @@ function setSearchQueryInURL(history, path, query) {
   }
 }
 
-export default function initSearch(history, document, ordering, domUtils) {
+export default function initSearch(
+  history,
+  document,
+  ordering,
+  domUtils,
+  badges,
+  onSearch,
+) {
   let activeQuery = '';
 
   const $searchInput = document.getElementById('search-input');
@@ -97,26 +104,37 @@ export default function initSearch(history, document, ordering, domUtils) {
       }
     }
 
-    let noResults = true;
-    $icons.forEach(($icon) => {
-      const brandName = $icon.getAttribute('data-brand');
-      const score = getScore(query, brandName);
-      if (score < 0) {
-        $icon.style.removeProperty('--order-relevance');
-        domUtils.hideElement($icon);
-      } else {
-        $icon.style.setProperty('--order-relevance', score);
-        domUtils.showElement($icon);
-        noResults = false;
-      }
-    });
+    const results = searchBadges(badges, query);
 
-    if (noResults) {
+    if (typeof onSearch === 'function') {
+      onSearch(results, query);
+    }
+
+    if (results.length === 0) {
       domUtils.showElement($gridItemIfEmpty);
     } else {
       domUtils.hideElement($gridItemIfEmpty);
     }
 
     activeQuery = query;
+  }
+
+  function searchBadges(items, query) {
+    if (!items || !items.length) {
+      return [];
+    }
+
+    if (!query) {
+      return [...items];
+    }
+
+    const results = items
+      .map((item) => {
+        const score = getScore(query, item.normalizedName);
+        return { ...item, relevanceScore: score };
+      })
+      .filter((item) => item.relevanceScore >= 0);
+
+    return results;
   }
 }

@@ -10,7 +10,12 @@ const CLASS_ORDER_ALPHABETICALLY = 'order-alphabetically';
 const CLASS_ORDER_BY_COLOR = 'order-by-color';
 const CLASS_ORDER_BY_RELEVANCE = 'order-by-relevance';
 
-export default function initOrdering(document, storage) {
+export default function initOrdering(
+  document,
+  storage,
+  getBadges,
+  onOrderChange,
+) {
   let activeOrdering = DEFAULT_ORDERING;
   let preferredOrdering = DEFAULT_ORDERING;
 
@@ -70,15 +75,43 @@ export default function initOrdering(document, storage) {
     }
 
     activeOrdering = selected;
+
+    if (
+      typeof getBadges === 'function' &&
+      typeof onOrderChange === 'function'
+    ) {
+      const sortedData = sortBadges(getBadges(), activeOrdering);
+      onOrderChange(sortedData);
+    }
   }
 
   function resetOrdering() {
     return selectOrdering(preferredOrdering);
   }
 
+  function sortBadges(items, orderType) {
+    if (!items || !items.length) {
+      return [];
+    }
+
+    const ordering = orderType || activeOrdering;
+    const sorted = [...items];
+
+    if (ordering === ORDER_ALPHABETICALLY) {
+      sorted.sort((a, b) => a.indexByAlpha - b.indexByAlpha);
+    } else if (ordering === ORDER_BY_COLOR) {
+      sorted.sort((a, b) => a.indexByColor - b.indexByColor);
+    } else if (ordering === ORDER_BY_RELEVANCE) {
+      sorted.sort((a, b) => a.relevanceScore - b.relevanceScore);
+    }
+
+    return sorted;
+  }
+
   return {
     currentOrderingIs,
     selectOrdering,
     resetOrdering,
+    sortBadges,
   };
 }

@@ -4,6 +4,8 @@ export const domUtils = {
   toggleClass: jest.fn().mockName('domUtils.toggleClass'),
   addClass: jest.fn().mockName('domUtils.addClass'),
   removeClass: jest.fn().mockName('domUtils.removeClass'),
+  getColumnsCount: jest.fn().mockName('domUtils.getColumnsCount'),
+
   // Utility to quickly clear the entire dom-utils mock.
   __resetAllMocks: function () {
     this.hideElement.mockReset();
@@ -11,5 +13,6 @@ export const domUtils = {
     this.toggleClass.mockReset();
     this.addClass.mockReset();
     this.removeClass.mockReset();
+    this.getColumnsCount.mockReset();
   },
 };

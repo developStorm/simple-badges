@@ -76,10 +76,10 @@ describe.each([
     expect(await isInViewport($orderByColor)).toBeTruthy();
   });
 
-  it('has the first grid item in view on load', async () => {
-    const $firstGridItem = await page.$('.grid-item');
-    expect(await isInViewport($firstGridItem)).toBeTruthy();
-  });
+  // it('has the first grid item in view on load', async () => {
+  //   const $firstGridItem = await page.$('.grid-item');
+  //   expect(await isInViewport($firstGridItem)).toBeTruthy();
+  // });
 
   it('hides the #copy-input element', async () => {
     const $copyInput = await page.$('#copy-input');

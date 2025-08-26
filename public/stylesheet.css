@@ -67,6 +67,9 @@
   --lm-color-link: rgb(0, 0, 238);
   --lm-color-link-hover: rgb(52, 52, 238);
   --lm-color-link-visited: rgb(85, 26, 139);
+
+  --grid-width: 13.5rem;
+  --grid-gap: 0.75rem;
 }
 @media (max-width: 1280px) {
   :root {
@@ -475,11 +478,15 @@ body.order-by-relevance #order-relevance {
 
 /* Grid */
 
-.grid {
-  --grid-width: 13.5rem;
+.grid-rows-container {
+  .grid {
+    margin: 0 0 var(--grid-gap);
+  }
+}
 
+.grid {
   display: grid;
-  gap: 0.75rem;
+  gap: var(--grid-gap);
   grid-template-columns: repeat(auto-fill, minmax(var(--grid-width), 1fr));
   margin: 0 0 1.5rem;
 }
@@ -633,15 +640,6 @@ body.order-by-relevance #order-relevance {
   color: var(--color-button-text-hover);
 }
 
-/* Ordering grid-items */
-
-body.order-by-color .grid-item {
-  order: var(--order-color);
-}
-body.order-by-relevance .grid-item {
-  order: var(--order-relevance);
-}
-
 /* Footer */
 
 .footer {
@@ -767,4 +765,12 @@ body.order-by-relevance .grid-item {
   display: block !important;
   height: 0;
   width: 0;
+}
+
+#loader {
+  display: flex;
+
+  img {
+    margin: 30px auto;
+  }
 }
