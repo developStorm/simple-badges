@@ -56,7 +56,7 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "simple-icons": "16.3.0",
+    "simple-icons": "16.7.0",
     "virtual-scroller": "1.13.1"
   }
 }
